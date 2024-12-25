@@ -1,15 +1,13 @@
 {
-  "id": "wo-select",
-  "displayName": "通用数据选择器",
-  "version": "1.0.0",
-  "description": "采用uniapp-vue3实现的数据选择器，支持H5、微信小程序（其他小程序未测试过，可自行尝试）  ",
+  "id": "wo-slider",
+  "displayName": "wo-slider",
+  "version": "1.1.0",
+  "description": "wo-slider是一款支持高度自定义的滑块验证组件，采用uniapp-vue2编写",
   "keywords": [
-    "数据选择器",
-    "搜索",
-    "select",
-    "自定义"
+    "slider",
+    "wo-slider"
 ],
-  "repository": "",
+  "repository": "https://gitee.com/xzxylp/wo-slider",
   "engines": {
     "HBuilderX": "^3.1.0"
   },
@@ -28,7 +26,7 @@
     },
     "declaration": {
       "ads": "无",
-      "data": "插件不采集任何数据",
+      "data": "无",
       "permissions": "无"
     },
     "npmurl": ""
@@ -40,17 +38,16 @@
       "cloud": {
         "tcb": "y",
         "aliyun": "y",
-        "alipay": "y"
+        "alipay": "n"
       },
       "client": {
         "Vue": {
-          "vue2": "u",
+          "vue2": "y",
           "vue3": "y"
         },
         "App": {
-          "app-vue": "u",
-          "app-nvue": "u",
-          "app-uvue": "u"
+          "app-vue": "y",
+          "app-nvue": "u"
         },
         "H5-mobile": {
           "Safari": "u",
