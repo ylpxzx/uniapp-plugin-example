@@ -1,19 +1,20 @@
 {
-  "id": "wo-gradient-card",
-  "displayName": "透明辉光动画卡片",
+  "id": "wo-identity-card",
+  "displayName": "银行卡卡片",
   "version": "1.0.0",
-  "description": "采用uniapp-vue3实现，透明辉光动画卡片，卡片内容包含标签、标题、副标题、图片",
+  "description": "采用uniapp-vue3实现的银行卡卡片，支持H5、微信小程序(其他小程序请自行测试)",
   "keywords": [
     "卡片",
-    "动画",
-    "透明"
+    "身份证",
+    "银行卡",
+    "card"
 ],
   "repository": "",
   "engines": {
     "HBuilderX": "^3.1.0"
   },
   "dcloudext": {
-    "type": "component-vue",
+    "type": "uniapp-template-page",
     "sale": {
       "regular": {
         "price": "0.00"
@@ -43,7 +44,7 @@
       },
       "client": {
         "Vue": {
-          "vue2": "u",
+          "vue2": "y",
           "vue3": "y"
         },
         "App": {

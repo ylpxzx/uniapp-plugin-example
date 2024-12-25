@@ -1,6 +1,6 @@
 {
-    "name" : "gradientCard",
-    "appid" : "__UNI__6A0CFC9",
+    "name" : "identityCard",
+    "appid" : "__UNI__9C10A40",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -50,7 +50,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wx84e17272b6c551d4",
         "setting" : {
             "urlCheck" : false
         },
