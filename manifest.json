@@ -1,6 +1,6 @@
 {
-    "name" : "plugin-example",
-    "appid" : "",
+    "name" : "uniapp-plugin-example",
+    "appid" : "__UNI__1CCDAB6",
     "description" : "uniapp插件模版",
     "versionName" : "1.0.0",
     "versionCode" : "100",
