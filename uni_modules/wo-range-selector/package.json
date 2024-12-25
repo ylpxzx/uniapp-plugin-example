@@ -1,14 +1,12 @@
 {
-  "id": "wo-radio",
-  "displayName": "wo-radio单选框选择器",
-  "version": "1.1.0",
-  "description": "采用uniapp-vue3实现, 是一款单选框选择器，提供丝滑的动画选中效果，支持不同主题配置，适配web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）",
+  "id": "wo-range-selector",
+  "displayName": "woRangeSelector时间选择器",
+  "version": "1.0.0",
+  "description": "woRangeSelector是一款范围选择器，可用于时间选择器，段落选择器等应用场景",
   "keywords": [
     "选择器",
-    "单选框",
-    "选中",
-    "选择",
-    "单选"
+    "时间选择器",
+    "范围选择器"
 ],
   "repository": "",
   "engines": {
@@ -40,7 +38,8 @@
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y"
+        "aliyun": "y",
+        "alipay": "y"
       },
       "client": {
         "Vue": {
@@ -49,7 +48,8 @@
         },
         "App": {
           "app-vue": "u",
-        "app-nvue": "u"
+          "app-nvue": "u",
+          "app-uvue": "u"
         },
         "H5-mobile": {
           "Safari": "u",
