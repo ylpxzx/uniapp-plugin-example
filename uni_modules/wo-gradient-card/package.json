@@ -1,14 +1,12 @@
 {
-  "id": "ewf-demo",
-  "displayName": "ewf-demo单选框选择器",
+  "id": "wo-gradient-card",
+  "displayName": "透明辉光动画卡片",
   "version": "1.0.0",
-  "description": "采用uniapp-vue3实现, 是一款单选框选择器，提供丝滑的动画选中效果，支持不同主题配置，适配web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）",
+  "description": "采用uniapp-vue3实现，透明辉光动画卡片，卡片内容包含标签、标题、副标题、图片",
   "keywords": [
-    "选择器",
-    "单选框",
-    "选中",
-    "选择",
-    "单选"
+    "卡片",
+    "动画",
+    "透明"
 ],
   "repository": "",
   "engines": {
@@ -40,7 +38,8 @@
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y"
+        "aliyun": "y",
+        "alipay": "y"
       },
       "client": {
         "Vue": {
@@ -61,8 +60,8 @@
         "H5-pc": {
           "Chrome": "y",
           "IE": "u",
-          "Edge": "y",
-          "Firefox": "y",
+          "Edge": "u",
+          "Firefox": "u",
           "Safari": "u"
         },
         "小程序": {

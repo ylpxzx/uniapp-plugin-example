@@ -1,7 +1,7 @@
 {
-    "name" : "uniapp-plugin-example",
-    "appid" : "__UNI__1CCDAB6",
-    "description" : "uniapp插件模版",
+    "name" : "gradientCard",
+    "appid" : "__UNI__6A0CFC9",
+    "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
@@ -50,7 +50,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx84e17272b6c551d4",
+        "appid" : "",
         "setting" : {
             "urlCheck" : false
         },
