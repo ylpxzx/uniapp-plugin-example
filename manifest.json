@@ -1,6 +1,6 @@
 {
-    "name" : "woBtnGroup",
-    "appid" : "__UNI__0BAD7CA",
+    "name" : "woCardRadio",
+    "appid" : "__UNI__3B15DA9",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -50,7 +50,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wx84e17272b6c551d4",
         "setting" : {
             "urlCheck" : false
         },
