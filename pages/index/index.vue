@@ -1,185 +1,141 @@
 <template>
-	<view class="app">
-		<view class="circles">
-			<view class="circle circle-1"></view>
-			<view class="circle circle-2"></view>
+	<view>
+		<view class="name">弹出选择器: pop-selector</view>
+		<view class="card">
+			<view class="header">属性-基本用法(disabled禁用)：</view>
+			<view class="content">
+				<pop-selector :select-options="state.options" :default-value="state.value" @changeSelect="onChangeSelect">
+					<view class="button">
+						状态选择：{{ state.options[state.value]?.label }}
+					</view>
+				</pop-selector>
+			</view>
 		</view>
-		<view class="card-group">
-			<view class="card">
-				<view class="logo"></view>
-				<view class="chip">
-					<view class="chip-line"></view>
-					<view class="chip-line"></view>
-					<view class="chip-line"></view>
-					<view class="chip-line"></view>
-					<view class="chip-main"></view>
-				</view>
-				<view class="number">1234 5678 9012 3456</view>
-				<view class="name">Mr.Li</view>
-				<view class="from">2024/02/21 MT0072</view>
-				<view class="ring"></view>
+		<view class="card">
+			<view class="header">属性-自定义激活颜色：</view>
+			<view class="content">
+				<pop-selector :active-color="'#0086D1'" :select-options="state.options" :default-value="state.value" @changeSelect="onChangeSelect">
+					<view class="button">
+						状态选择：{{ state.options[state.value]?.label }}
+					</view>
+				</pop-selector>
+			</view>
+		</view>
+		<view class="card">
+			<view class="header">属性-自定义弹窗高度：</view>
+			<view class="content">
+				<pop-selector :max-height="'200rpx'" :select-options="state.options" :default-value="state.value" @changeSelect="onChangeSelect">
+					<view class="button">
+						状态选择：{{ state.options[state.value]?.label }}
+					</view>
+				</pop-selector>
+			</view>
+		</view>
+		<view class="card">
+			<view class="header">属性-自定义弹窗样式：</view>
+			<view class="content">
+				<pop-selector :card-style="state.darkStyle" :select-options="state.options" :default-value="state.value" @changeSelect="onChangeSelect">
+					<view class="button">
+						状态选择：{{ state.options[state.value]?.label }}
+					</view>
+				</pop-selector>
+			</view>
+		</view>
+		<view class="card">
+			<view class="header">插槽-自定义弹窗头部：</view>
+			<view class="content">
+				<pop-selector :active-color="'#0086D1'" :select-options="state.options" :default-value="state.value" @changeSelect="onChangeSelect">
+					<view class="button">
+						状态选择：{{ state.options[state.value]?.label }}
+					</view>
+					<template v-slot:header>
+						<view style="padding: 12rpx 20rpx; color: grey;">请选择订单状态</view>
+					</template>
+				</pop-selector>
+			</view>
+		</view>
+		<view class="card">
+			<view class="header">插槽-自定义右边图标：</view>
+			<view class="content">
+				<pop-selector :select-options="state.options" :default-value="state.value" @changeSelect="onChangeSelect">
+					<view class="button">
+						状态选择：{{ state.options[state.value]?.label }}
+					</view>
+					<template v-slot:right>
+						<view>✅</view>
+					</template>
+				</pop-selector>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script setup lang="ts">
+import popSelector from './popSelector.vue'
+import { reactive } from 'vue';
+
+const state = reactive({
+  options: [
+		{
+			label: '全部',
+			value: 0,
+		},
+		{
+			label: '成功',
+			value: 1,
+		},
+		{
+			label: '失败',
+			value: 2,
+		},
+		{
+			label: '禁用',
+			disabled: true,
+			value: 3,
+		},
+	],
+	value: 0,
+	darkStyle: {
+		color: '#fff',
+		background: '#000',
+		border: '1px solid #ebeef5',
+		borderRadius: '6px',
+		boxShadow: '0 2px 12px 0 rgba(0, 0, 0, 0.1)',
+		padding: '4px 0',
+		fontSize: '26rpx'
+	}
+});
+const onChangeSelect = (e: any) => {
+	console.log(e);
+  state.value = e.value;
+};
 </script>
 
 <style scoped>
-	.app {
-		background: linear-gradient(to left, #283593, #1976d2);
-		font-size: 48rpx;
-		height: 100vh;
-	}
-
-	/* Background circles start */
-	.circle {
-		position: absolute;
-		border-radius: 50%;
-		background: radial-gradient(#006db3, #29b6f6);
-	}
-	.circles {
-		position: absolute;
-		height: 540rpx;
-		width: 900rpx;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-	}
-	.circle-1 {
-		height: 180px;
-		width: 180px;
-		top: -50px;
-		left: -10px;
-	}
-	.circle-2 {
-		height: 200px;
-		width: 200px;
-		bottom: -50px;
-		right: -40px;
-		opacity: 0.8;
-	}
-	/* Background circles end */
-
-	.card-group {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-	}
-
-	.card {
-		position: relative;
-		height: 420rpx;
-		width: 700rpx;
-		border-radius: 25rpx;
-		background: rgba(255, 255, 255, 0.2);
-		backdrop-filter: blur(60rpx);
-		border: 4rpx solid rgba(255, 255, 255, 0.1);
-		box-shadow: 0 0 80rpx rgba(0, 0, 0, 0.2);
-		overflow: hidden;
-	}
-
-	.number,
-	.name,
-	.from,
-	.to,
-	.ring {
-		position: absolute; /* All items inside card should have absolute position */
-	}
-
-	.chip {
-		top: 90rpx;
-		left: 40rpx;
-		position: relative;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 90rpx;
-		height: 70rpx;
-		border-radius: 10rpx;
-		background-image: linear-gradient(to bottom left, #ffecc7, #d0b978);
-		overflow: hidden;
-	}
-	.chip .chip-line {
-		position: absolute;
-		width: 100%;
-		height: 4rpx;
-		background-color: #fff;
-	}
-	.chip .chip-line:nth-child(1) {
-		top: 20rpx;
-	}
-	.chip .chip-line:nth-child(2) {
-		top: 34rpx;
-	}
-	.chip .chip-line:nth-child(3) {
-		top: 48rpx;
-	}
-	.chip .chip-line:nth-child(4) {
-		left: 45rpx;
-		width: 4rpx;
-		height: 100rpx;
-	}
-	.chip .chip-main {
-		width: 38rpx;
-		height: 40rpx;
-		border: 4rpx solid #fff;
-		border-radius: 6rpx;
-		background-image: linear-gradient(to bottom left, #efdbab, #e1cb94);
-		z-index: 1;
-	}
-
-	.number,
-	.name,
-	.from,
-	.to {
-		color: rgba(255, 255, 255, 0.8);
-		font-weight: 400;
-		letter-spacing: 4rpx;
-		text-shadow: 0 0 4rpx rgba(0, 0, 0, 0.6);
-	}
-
-	.number {
-		left: 40rpx;
-		bottom: 130rpx;
-	}
-
-	.name {
-		font-size: 0.5em;
-		left: 40rpx;
-		bottom: 60rpx;
-	}
-
-	.from {
-		font-size: 0.5em;
-		bottom: 60rpx;
-		right: 40rpx;
-	}
-
-	/* The two rings on the card background */
-	.ring {
-		height: 800rpx;
-		width: 800rpx;
-		border-radius: 50%;
-		background: transparent;
-		border: 80rpx solid rgba(255, 255, 255, 0.1);
-		bottom: -500rpx;
-		right: -500rpx;
-		box-sizing: border-box;
-	}
-
-	.ring::after {
-		content: "";
-		position: absolute;
-		height: 1000rpx;
-		width: 1000rpx;
-		border-radius: 50%;
-		background: transparent;
-		border: 60rpx solid rgba(255, 255, 255, 0.1);
-		bottom: -80rpx;
-		right: -160rpx;
-		box-sizing: border-box;
-	}
+.flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.name {
+	font-weight: bold;
+	padding: 40rpx 0 10rpx 20rpx;
+}
+.card {
+	display: flex;
+	justify-content: space-between;
+	background: #f1f1f1;
+	margin: 40rpx 10rpx;
+	padding: 30rpx;
+	border-radius: 12rpx;
+}
+.header {
+	display: flex;
+	align-items: center;
+}
+.button {
+	background: #fff;
+	padding: 16rpx 30rpx;
+	border-radius: 10rpx;
+}
 </style>

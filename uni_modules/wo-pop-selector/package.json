@@ -1,20 +1,17 @@
 {
-  "id": "wo-identity-card",
-  "displayName": "银行卡卡片",
+  "id": "wo-pop-selector",
+  "displayName": "弹出选择器组件wo-pop-selector",
   "version": "1.0.0",
-  "description": "采用uniapp-vue3实现的银行卡卡片，支持H5、微信小程序(其他小程序请自行测试)",
+  "description": "wo-pop-selector弹出选择组件采用uniapp-vue3实现, 支持H5、微信小程序（其他小程序未测试过，可自行尝试）",
   "keywords": [
-    "卡片",
-    "身份证",
-    "银行卡",
-    "card"
+    "选择器，弹出选择，菜单，wo-pop-selector"
 ],
   "repository": "",
   "engines": {
     "HBuilderX": "^3.1.0"
   },
   "dcloudext": {
-    "type": "uniapp-template-page",
+    "type": "component-vue",
     "sale": {
       "regular": {
         "price": "0.00"
@@ -39,18 +36,16 @@
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y",
-        "alipay": "y"
+        "aliyun": "y"
       },
       "client": {
         "Vue": {
-          "vue2": "y",
+          "vue2": "u",
           "vue3": "y"
         },
         "App": {
-          "app-vue": "u",
-          "app-nvue": "u",
-          "app-uvue": "u"
+          "app-vue": "y",
+          "app-nvue": "u"
         },
         "H5-mobile": {
           "Safari": "u",
