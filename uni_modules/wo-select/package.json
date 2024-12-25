@@ -1,12 +1,13 @@
 {
-  "id": "wo-range-selector",
-  "displayName": "woRangeSelector时间选择器",
+  "id": "wo-select",
+  "displayName": "通用数据选择器",
   "version": "1.0.0",
-  "description": "woRangeSelector是一款范围选择器，可用于时间选择器，段落选择器等应用场景",
+  "description": "采用uniapp-vue3实现的数据选择器，支持H5、微信小程序（其他小程序未测试过，可自行尝试）  ",
   "keywords": [
-    "选择器",
-    "时间选择器",
-    "范围选择器"
+    "数据选择器",
+    "搜索",
+    "select",
+    "自定义"
 ],
   "repository": "",
   "engines": {

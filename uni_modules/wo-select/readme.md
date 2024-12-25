@@ -1,3 +1,112 @@
+# 数据选择器 wo-select
+
+> 采用uniapp-vue3实现的数据选择器，支持H5、微信小程序（其他小程序未测试过，可自行尝试）
+>
+> + 支持本地自定义过滤、远程接口过滤，
+> + 为了避免弹窗面板超出边界的情况，自动计算弹窗面板安置的位置（在微信小程序，节点信息是页面渲染后才拿得到，所以会有一段位移过程，大神如果更合适的方案，可以自行优化）
+> + 支持自定义弹窗面板显示内容
+> + 支持自定义取值字段（默认为options: [{label：'键',  value: '值', ....}]格式）
+>
+> <font color="red">由于移动端输入场景下会弹出键盘，如果设置为失焦时关闭弹窗面板, 则收起键盘时，弹窗就会被关闭，无法再进行下一步选择。所以采用弹窗常驻，手动点击右边图标关闭弹窗的方式</font>
+
+## props属性
+
+### id
+
+> 组件唯一标识
+>
+> 同个页面存在多个wo-select组件的情况，id为必填项，因为需要通过id去计算弹窗面板与输入框的位置，以便安置弹窗面板在合适的位置，避免超出边界
+
+~~~js
+id: {
+    type: String,
+    default: 'inputId',
+    reqiured: true
+},
+~~~
+
+### value
+
+> 默认值（valueField字段指定的字段值）
+
+~~~js
+value: {
+    type: String || Number,
+    default: null
+},
+~~~
+
+### options
+
+> 结构化数据
+
+~~~js
+options: {
+    type: Array,
+    default: () => []
+},
+~~~
+
+### placeholder
+
+> 占位描述
+
+~~~js
+placeholder: {
+    type: String,
+    default: '请选择数据'
+},
+~~~
+
+### labelField
+
+> 选中后输入框显示的值的取值字段
+
+~~~js
+labelField: {
+    type: String,
+    default: 'label'
+},
+~~~
+
+~~~
+如果 options = [{ name: '按钮1', id: 1}, { name: '按钮2', id: 2 }]; labelField = 'name'
+则选中后，输入框中则显示name字段的值
+~~~
+
+### valueField
+
+> 选中值的取值字段
+
+~~~js
+valueField: {
+    type: String,
+    default: 'value'
+}
+~~~
+
+~~~
+如果 options = [{ name: '按钮1', id: 1}, { name: '按钮2', id: 2 }]; valueField = 'id'
+则选中值就是id字段的值
+~~~
+
+
+
+## 事件
+
+### @filter
+
+> 过滤事件，支持本地过滤、远程过滤等
+
+### @on-change
+
+> 选中后返回值，值为valueField配置的字段值
+
+
+
+## 示例
+
+~~~vue
 <template>
 	<view class="content">
 		<view class="card">
@@ -216,3 +325,5 @@
 		background: #666;
 	}
 </style>
+~~~
+
