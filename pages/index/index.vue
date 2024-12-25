@@ -1,41 +1,113 @@
 <template>
-	<view class="content">
-		<view>
-			<view>
-				<view style="margin-bottom: 30rpx;">简约效果</view>
-				<view style="display: flex; gap: 8rpx; flex-wrap: wrap;">
-					<button size="mini" @click="onPop('info', '你已完成今日打卡', false)">普通态</button>
-					<button size="mini" @click="onPop('success', '恭喜预约成功', false)">成功态</button>
-					<button size="mini" @click="onPop('warn', '请仔细检查内容', false)">警告态</button>
-					<button size="mini" @click="onPop('error', '接口返回错误', false)">错误态</button>
+	<view>
+		<view class="light" style="background-color: white">
+			<wo-radio v-model:options="state.items" v-model:defaultValue="state.default" @on-change="changeEvent">
+			</wo-radio>
+		</view>
+		<view class="light">
+			<wo-radio v-model:options="state.items" v-model:defaultValue="state.default" v-model:styleObj="state.theme.light" v-slot="slotProps" @on-change="changeEvent">
+				<view style="display: flex;">
+					<view>{{ slotProps.data.name }}</view>
+					<view class="tag">{{ slotProps.data.tag }}</view>
 				</view>
-			</view>
-			<view>
-				<view style="margin-bottom: 30rpx;">深色效果</view>
-				<view style="display: flex; gap: 8rpx; flex-wrap: wrap;">
-					<button size="mini" @click="onPop('info', '你已完成今日打卡', true)">普通态</button>
-					<button size="mini" @click="onPop('success', '恭喜预约成功', true)">成功态</button>
-					<button size="mini" @click="onPop('warn', '请仔细检查内容', true)">警告态</button>
-					<button size="mini" @click="onPop('error', '接口返回错误', true)">错误态</button>
+			</wo-radio>
+		</view>
+		<view class="dark">
+			<wo-radio v-model:options="state.items" v-model:defaultValue="state.default" v-model:styleObj="state.theme.dark" v-slot="slotProps" @on-change="changeEvent">
+				<view style="display: flex;">
+					<view>{{ slotProps.data.name }}</view>
+					<view class="tag">{{ slotProps.data.tag }}</view>
 				</view>
-			</view>
+			</wo-radio>
 		</view>
 	</view>
+	
 </template>
 
 <script setup lang="ts">
-import messageBox from '../../ui/message/message';
-const onPop = (status: string, info: string, isDeep: boolean) => {
-	messageBox(status, info, null, isDeep);
-}
+	import { reactive } from 'vue';
+	const state = reactive({
+	  items: [{
+				value: '1',
+				name: '苹果味',
+				tag: '饮料'
+			},
+			{
+				value: '2',
+				name: '香蕉味',
+				tag: '酒水'
+			},
+			{
+				value: '3',
+				name: '火龙果味',
+				tag: '饮料'
+			},
+			{
+				value: '4',
+				name: '西瓜味',
+				tag: '饮料'
+			},
+			{
+				value: '5',
+				name: '哈密瓜味',
+				tag: '酒水'
+			},
+			{
+				value: '6',
+				name: '榴莲味',
+				tag: '酒水'
+		}],
+		default: '2',
+		theme: {
+				light: {
+					primary: 'blue',
+					unselectedRadioBg: '#eaeaea',
+					selectedBg: 'hsla(0,0%,100%,0.5)',
+					height: 20
+				},
+				dark: {
+					primary: 'blue',
+					unselectedRadioBg: 'hsl(223,90%,30%)',
+					selectedBg: 'hsla(223,90%,30%,0.5)',
+					height: 20
+				}
+		},
+		height: 12
+	});
+	const changeEvent = (el) => {
+		console.log('点击：', el);
+	}
 </script>
 
-<style scoped>
-	.content {
+<style lang="scss" scoped>
+	.light {
+		border-radius: 10px;
+		padding: 20rpx;
+		font-size: 24rpx;
+		background-color: hsl(223,90%,90%);
+		margin: 20px;
+		height: 300px;
+		overflow: auto;
+	}
+	.dark {
+		border-radius: 10px;
+		padding: 20rpx;
+		font-size: 24rpx;
+		background-color: hsl(223,90%,10%);
+		color: white;
+		margin: 20px;
+		height: 300px;
+		overflow: auto;
+	}
+	.tag {
+		background-color: #1BA035;
+		color: white;
+		font-size: 10px;
 		display: flex;
-		justify-content: center;
 		align-items: center;
-		padding: 40rpx;
-		font-size: 28rpx;
+		justify-content: center;
+		border-radius: 4px;
+		padding: 0 4px;
+		margin-left: 5px;
 	}
 </style>

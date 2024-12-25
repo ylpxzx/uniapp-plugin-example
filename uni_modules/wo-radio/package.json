@@ -1,10 +1,14 @@
 {
-  "id": "wo-message",
-  "displayName": "wo-message",
-  "version": "1.0.0",
-  "description": "wo-message",
+  "id": "wo-radio",
+  "displayName": "wo-radio单选框选择器",
+  "version": "1.1.0",
+  "description": "采用uniapp-vue3实现, 是一款单选框选择器，提供丝滑的动画选中效果，支持不同主题配置，适配web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）",
   "keywords": [
-    "wo-message"
+    "选择器",
+    "单选框",
+    "选中",
+    "选择",
+    "单选"
 ],
   "repository": "",
   "engines": {
@@ -24,9 +28,9 @@
       "qq": ""
     },
     "declaration": {
-      "ads": "",
-      "data": "",
-      "permissions": ""
+      "ads": "无",
+      "data": "插件不采集任何数据",
+      "permissions": "无"
     },
     "npmurl": ""
   },
@@ -35,19 +39,17 @@
     "encrypt": [],
     "platforms": {
       "cloud": {
-        "tcb": "u",
-        "aliyun": "u",
-        "alipay": "u"
+        "tcb": "y",
+        "aliyun": "y"
       },
       "client": {
         "Vue": {
           "vue2": "u",
-          "vue3": "u"
+          "vue3": "y"
         },
         "App": {
           "app-vue": "u",
-          "app-nvue": "u",
-          "app-uvue": "u"
+        "app-nvue": "u"
         },
         "H5-mobile": {
           "Safari": "u",
@@ -56,14 +58,14 @@
           "QQ浏览器(Android)": "u"
         },
         "H5-pc": {
-          "Chrome": "u",
+          "Chrome": "y",
           "IE": "u",
           "Edge": "u",
           "Firefox": "u",
           "Safari": "u"
         },
         "小程序": {
-          "微信": "u",
+          "微信": "y",
           "阿里": "u",
           "百度": "u",
           "字节跳动": "u",
