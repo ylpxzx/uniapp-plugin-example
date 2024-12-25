@@ -1,6 +1,6 @@
 {
-    "name" : "uniapp-project-demo",
-    "appid" : "",
+    "name" : "woTag",
+    "appid" : "__UNI__1454659",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -50,13 +50,11 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx84e17272b6c551d4",
+        "appid" : "",
         "setting" : {
-            "urlCheck" : false,
-            "es6" : true
+            "urlCheck" : false
         },
-        "usingComponents" : true,
-        "permission" : {}
+        "usingComponents" : true
     },
     "mp-alipay" : {
         "usingComponents" : true
@@ -70,5 +68,5 @@
     "uniStatistics" : {
         "enable" : false
     },
-    "vueVersion" : "2"
+    "vueVersion" : "3"
 }

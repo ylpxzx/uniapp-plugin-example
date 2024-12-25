@@ -1,13 +1,15 @@
 {
-  "id": "wo-slider",
-  "displayName": "wo-slider",
+  "id": "wo-tag",
+  "displayName": "标签选择器wo-tag",
   "version": "1.1.0",
-  "description": "wo-slider是一款支持高度自定义的滑块验证组件，采用uniapp-vue2编写",
+  "description": "采用uniapp-vue3实现, 是一款支持高度自定义的标签选择器，支持H5、微信小程序（其他小程序未测试过，可自行尝试）",
   "keywords": [
-    "slider",
-    "wo-slider"
+    "标签",
+    "选择器",
+    "多选",
+    "单选"
 ],
-  "repository": "https://gitee.com/xzxylp/wo-slider",
+  "repository": "",
   "engines": {
     "HBuilderX": "^3.1.0"
   },
@@ -26,7 +28,7 @@
     },
     "declaration": {
       "ads": "无",
-      "data": "无",
+      "data": "插件不采集任何数据",
       "permissions": "无"
     },
     "npmurl": ""
@@ -37,16 +39,15 @@
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y",
-        "alipay": "n"
+        "aliyun": "y"
       },
       "client": {
         "Vue": {
-          "vue2": "y",
+          "vue2": "u",
           "vue3": "y"
         },
         "App": {
-          "app-vue": "y",
+          "app-vue": "u",
           "app-nvue": "u"
         },
         "H5-mobile": {
