@@ -1,6 +1,9 @@
 <template>
-	<view>
-		<view class="light" style="background-color: white">
+	<view style="padding: 20px;">
+		<view>
+			<wo-radio-hopping></wo-radio-hopping>
+		</view>
+		<!-- <view class="light" style="background-color: white">
 			<wo-radio v-model:options="state.items" v-model:defaultValue="state.default" @on-change="changeEvent">
 			</wo-radio>
 		</view>
@@ -19,7 +22,7 @@
 					<view class="tag">{{ slotProps.data.tag }}</view>
 				</view>
 			</wo-radio>
-		</view>
+		</view> -->
 	</view>
 	
 </template>
