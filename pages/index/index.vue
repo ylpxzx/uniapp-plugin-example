@@ -1,28 +1,62 @@
 <template>
-	<view style="padding: 20px;">
-		<view>
-			<wo-radio-hopping></wo-radio-hopping>
+	<view>
+		<view class="light" style="background-color: white">
+			<view>
+				<view class="flex-center">默认样式</view>
+				<wo-radio-hopping></wo-radio-hopping>
+			</view>
 		</view>
-		<!-- <view class="light" style="background-color: white">
-			<wo-radio v-model:options="state.items" v-model:defaultValue="state.default" @on-change="changeEvent">
-			</wo-radio>
+		<view class="light" style="background-color: white">
+			<view class="flex-center">数据集、默认选中、选中事件</view>
+			<wo-radio-hopping v-model:options="state.items" v-model:defaultValue="state.default" @on-change="changeEvent"></wo-radio-hopping>
 		</view>
-		<view class="light">
-			<wo-radio v-model:options="state.items" v-model:defaultValue="state.default" v-model:styleObj="state.theme.light" v-slot="slotProps" @on-change="changeEvent">
-				<view style="display: flex;">
-					<view>{{ slotProps.data.name }}</view>
-					<view class="tag">{{ slotProps.data.tag }}</view>
-				</view>
-			</wo-radio>
+		<view class="light" style="background-color: white">
+			<view>
+				<view class="flex-center">条状动画</view>
+				<wo-radio-hopping :lineAnimation="true"></wo-radio-hopping>
+			</view>
+		</view>
+		<view class="light" style="background-color: white">
+			<view>
+				<view class="flex-center">主题色</view>
+				<wo-radio-hopping :primary="'#55bc8a'"></wo-radio-hopping>
+			</view>
+		</view>
+		<view class="light" style="background-color: white">
+			<view>
+				<view class="flex-center">方框</view>
+				<wo-radio-hopping :circle="false"></wo-radio-hopping>
+			</view>
+		</view>
+		<view class="light" style="background-color: white">
+			<view>
+				<view class="flex-center">选择框样式(通过css的box-shadow属性去设置)</view>
+				<wo-radio-hopping :frameBoxShadow="''"></wo-radio-hopping>
+				<wo-radio-hopping :frameBoxShadow="'0 1px 1px rgba(0, 0, 0, 0.2), 0 2px 1px rgba(0, 0, 0, 0.2) inset'"></wo-radio-hopping>
+			</view>
+		</view>
+		<view class="light" style="background-color: white">
+			<view style="padding: 0 20px;">
+				<view class="flex-center">插槽自定义内容</view>
+				<wo-radio-hopping v-model:options="state.items" v-slot="slotProps" @on-change="changeEvent">
+					<view style="display: flex; justify-content: space-between;padding: 10px;">
+						<view>{{ slotProps.data.label }}</view>
+						<view class="tag">{{ slotProps.data.tag }}</view>
+					</view>
+				</wo-radio-hopping>
+			</view>
 		</view>
 		<view class="dark">
-			<wo-radio v-model:options="state.items" v-model:defaultValue="state.default" v-model:styleObj="state.theme.dark" v-slot="slotProps" @on-change="changeEvent">
-				<view style="display: flex;">
-					<view>{{ slotProps.data.name }}</view>
-					<view class="tag">{{ slotProps.data.tag }}</view>
-				</view>
-			</wo-radio>
-		</view> -->
+			<view>
+				<view class="flex-center">暗黑模式</view>
+				<wo-radio-hopping v-model:options="state.items" v-slot="slotProps" @on-change="changeEvent">
+					<view style="display: flex; justify-content: space-between;">
+						<view>{{ slotProps.data.label }}</view>
+						<view class="tag">{{ slotProps.data.tag }}</view>
+					</view>
+				</wo-radio-hopping>
+			</view>
+		</view>
 	</view>
 	
 </template>
@@ -32,50 +66,35 @@
 	const state = reactive({
 	  items: [{
 				value: '1',
-				name: '苹果味',
+				label: '苹果味',
 				tag: '饮料'
 			},
 			{
 				value: '2',
-				name: '香蕉味',
+				label: '香蕉味',
 				tag: '酒水'
 			},
 			{
 				value: '3',
-				name: '火龙果味',
+				label: '火龙果味',
 				tag: '饮料'
 			},
 			{
 				value: '4',
-				name: '西瓜味',
+				label: '西瓜味',
 				tag: '饮料'
 			},
 			{
 				value: '5',
-				name: '哈密瓜味',
+				label: '哈密瓜味',
 				tag: '酒水'
 			},
 			{
 				value: '6',
-				name: '榴莲味',
+				label: '榴莲味',
 				tag: '酒水'
 		}],
-		default: '2',
-		theme: {
-				light: {
-					primary: 'blue',
-					unselectedRadioBg: '#eaeaea',
-					selectedBg: 'hsla(0,0%,100%,0.5)',
-					height: 20
-				},
-				dark: {
-					primary: 'blue',
-					unselectedRadioBg: 'hsl(223,90%,30%)',
-					selectedBg: 'hsla(223,90%,30%,0.5)',
-					height: 20
-				}
-		},
-		height: 12
+		default: '4',
 	});
 	const changeEvent = (el) => {
 		console.log('点击：', el);
@@ -83,13 +102,16 @@
 </script>
 
 <style lang="scss" scoped>
+	.flex-center {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 	.light {
 		border-radius: 10px;
 		padding: 20rpx;
 		font-size: 24rpx;
 		background-color: hsl(223,90%,90%);
-		margin: 20px;
-		height: 300px;
 		overflow: auto;
 	}
 	.dark {
@@ -98,8 +120,6 @@
 		font-size: 24rpx;
 		background-color: hsl(223,90%,10%);
 		color: white;
-		margin: 20px;
-		height: 300px;
 		overflow: auto;
 	}
 	.tag {
@@ -111,6 +131,5 @@
 		justify-content: center;
 		border-radius: 4px;
 		padding: 0 4px;
-		margin-left: 5px;
 	}
 </style>

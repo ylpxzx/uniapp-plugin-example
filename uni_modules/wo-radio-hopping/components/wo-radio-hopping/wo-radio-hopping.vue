@@ -1,17 +1,12 @@
 <template>
-	<view class="radio-form" :style="{'--radio-primary': props.styleObj.primary, '--radio-frame-radius': props.styleObj.circle ? '50%' : '0', '--radio-frame-box-shadow': props.styleObj.frameBoxShadow}">
+	<view class="radio-form" :style="{'--radio-primary': props.primary, '--radio-frame-radius': props.circle ? '50%' : '0', '--radio-frame-box-shadow': props.frameBoxShadow}">
 		<view>
-			<view v-for="(item, index) in state.data" class="radio-label" :id="`radio-${index}`" :style="[props.outerStyle]" @click="onChange(item, index)" :class="{ 'radio-label-active': state.current === index }">
+			<view v-for="(item, index) in state.data" class="radio-label" :id="`radio-${state.uniqueId}-${index}`" @click="onChange(item, index)" :class="{ 'radio-label-active': state.current === index }">
 				<view class="radio-layout">
-					<view :id="`frame-${index}`" class="radio-frame" :class="{ 'radio-frame-active': state.current === index }"></view>
+					<view :id="`frame-${state.uniqueId}-${index}`" class="radio-frame" :class="{ 'radio-frame-active': state.current === index }"></view>
 					<view style="width: 100%;">
 						<slot :data="item">
-							<view>
-								<view style="display: flex; justify-content: space-between;">
-									<view style="display: flex; align-items: center;">{{ item.label }}</view>
-									<view style="height: 37px; width: 100px; border-radius: 10px; background-color: blue;"></view>
-								</view>
-							</view>
+								{{ item.label }}
 						</slot>
 					</view>
 				</view>
@@ -24,17 +19,17 @@
 </template>
 <script setup lang="ts">
 	import { reactive, getCurrentInstance, onMounted, watch } from 'vue';
+	const generateUniqueID = () => {
+	  return Math.floor(Math.random() * Date.now()).toString(36);
+	}
 	const props = withDefaults(
 	  defineProps<{
 	    options: any[];
 			defaultValue: any;
 			lineAnimation: boolean;
-			outerStyle: {},
-			styleObj: {
-				primary: string;
-				frameBoxShadow: string;
-				circle: boolean;
-			};
+			primary: string;
+			frameBoxShadow: string;
+			circle: boolean;
 	  }>(),
 	  {
 	    options: () => [
@@ -67,22 +62,11 @@
 					value: '6',
 				},
 			],
-			defaultValue: '3',
-			lineAnimation: true,
-			outerStyle: () => {
-				return {
-					border: '1px solid #5583f6',
-					borderRadius: '10px',
-					padding: '20px',
-				}
-			},
-			styleObj: () => {
-				return {
-					primary: '#5583f6',
-					circle: true,
-					frameBoxShadow: '0 0 0 1px currentColor',
-				}
-			}
+			defaultValue: '',
+			lineAnimation: false,
+			primary: '#5583f6',
+			circle: true,
+			frameBoxShadow: '0 0 0 1px currentColor',
 	  }
 	);
 	const $emit = defineEmits<{
@@ -95,6 +79,8 @@
 		positionList: [] as number[],
 		firstTopPosition: 0,
 		firstLeftPosition: 0,
+		default: props.defaultValue,
+		uniqueId: generateUniqueID()
 	});
 	
 	watch(
@@ -115,6 +101,7 @@
 		}
 		return valueIndex
 	}
+	
 	const onChange = (data: any, index: number) => {
 		const oneTop = state.positionList[0]
 		if (index === 0) {
@@ -131,29 +118,30 @@
 		const query = uni.createSelectorQuery().in(instance.proxy);
 		state.data.forEach((_, index) => {
 			query
-			  .select(`#frame-${index}`)
+			  .select(`#frame-${state.uniqueId}-${index}`)
 			  .boundingClientRect((data: any) => {
 					if(index === 0) {
-						console.log(data)
-						state.firstLeftPosition = data.left - data.width + 3.9
+						state.firstLeftPosition = 3.02
 					}
 					state.positionList[index] = data.top
 			  }).exec();
 		})
 		query
-		  .select(`#radio-0`)
+		  .select(`#radio-${state.uniqueId}-0`)
 		  .boundingClientRect((data: any) => {
 				state.firstTopPosition = (data.height / 2) - 4.7
 		  }).exec();
 		const defaultIndex = getIndex(props.defaultValue)
 		state.current = defaultIndex
-		if(defaultIndex !== 0) {
-			state.translateYValue = state.positionList[defaultIndex] - state.positionList[0] - 1.5
-		}
 	}
 	
 	onMounted(() => {
 		init()
+		if(state.current !== 0) {
+			setTimeout(() => {
+				state.translateYValue = state.positionList[state.current] - state.positionList[0] - 1.5
+			}, 500)
+		}
 	})
 </script>
 <style scoped>
