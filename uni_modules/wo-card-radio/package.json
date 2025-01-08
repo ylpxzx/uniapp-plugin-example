@@ -1,7 +1,7 @@
 {
   "id": "wo-card-radio",
   "displayName": "wo-card-radio 单选框卡片选择器",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "采用uniapp-vue3实现的一款单选框卡片选择器，纯CSS实现样式和交互，提供丝滑的动画选中效果，支持不同主题配置，适配多端",
   "keywords": [
     "radio",
@@ -44,13 +44,14 @@
       },
       "client": {
         "Vue": {
-          "vue2": "u",
+          "vue2": "n",
           "vue3": "y"
         },
         "App": {
-          "app-vue": "u",
-          "app-nvue": "u",
-          "app-uvue": "u"
+            "app-vue": "u",
+            "app-nvue": "u",
+            "app-uvue": "u",
+            "app-harmony": "u"
         },
         "H5-mobile": {
           "Safari": "y",
