@@ -1,7 +1,7 @@
 {
   "id": "wo-slider",
   "displayName": "wo-slider",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "wo-slider是一款支持高度自定义的滑块验证组件，采用uniapp-vue2编写",
   "keywords": [
     "slider",
@@ -46,8 +46,10 @@
           "vue3": "y"
         },
         "App": {
-          "app-vue": "y",
-          "app-nvue": "u"
+            "app-vue": "y",
+            "app-nvue": "u",
+            "app-harmony": "u",
+            "app-uvue": "u"
         },
         "H5-mobile": {
           "Safari": "u",
