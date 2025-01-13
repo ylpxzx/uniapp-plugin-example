@@ -1,7 +1,7 @@
 {
   "id": "wo-radio-hopping",
   "displayName": "wo-radio-hopping灵动的单选框选择器",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "采用uniapp-vue3实现, 是一款灵动的单选框选择器，提供丝滑的动画选中效果，支持不同主题配置，适配web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）",
   "keywords": [
     "wo-radio-hopping",
