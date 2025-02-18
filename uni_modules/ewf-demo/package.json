@@ -1,0 +1,86 @@
+{
+  "id": "ewf-demo",
+  "displayName": "ewf-demo单选框选择器",
+  "version": "1.0.0",
+  "description": "采用uniapp-vue3实现, 是一款单选框选择器，提供丝滑的动画选中效果，支持不同主题配置，适配web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）",
+  "keywords": [
+    "选择器",
+    "单选框",
+    "选中",
+    "选择",
+    "单选"
+],
+  "repository": "",
+  "engines": {
+    "HBuilderX": "^3.1.0"
+  },
+  "dcloudext": {
+    "type": "component-vue",
+    "sale": {
+      "regular": {
+        "price": "0.00"
+      },
+      "sourcecode": {
+        "price": "0.00"
+      }
+    },
+    "contact": {
+      "qq": ""
+    },
+    "declaration": {
+      "ads": "无",
+      "data": "插件不采集任何数据",
+      "permissions": "无"
+    },
+    "npmurl": ""
+  },
+  "uni_modules": {
+    "dependencies": [],
+    "encrypt": [],
+    "platforms": {
+      "cloud": {
+        "tcb": "y",
+        "aliyun": "y"
+      },
+      "client": {
+        "Vue": {
+          "vue2": "u",
+          "vue3": "y"
+        },
+        "App": {
+          "app-vue": "u",
+          "app-nvue": "u",
+          "app-uvue": "u"
+        },
+        "H5-mobile": {
+          "Safari": "u",
+          "Android Browser": "u",
+          "微信浏览器(Android)": "u",
+          "QQ浏览器(Android)": "u"
+        },
+        "H5-pc": {
+          "Chrome": "y",
+          "IE": "u",
+          "Edge": "y",
+          "Firefox": "y",
+          "Safari": "u"
+        },
+        "小程序": {
+          "微信": "y",
+          "阿里": "u",
+          "百度": "u",
+          "字节跳动": "u",
+          "QQ": "u",
+          "钉钉": "u",
+          "快手": "u",
+          "飞书": "u",
+          "京东": "u"
+        },
+        "快应用": {
+          "华为": "u",
+          "联盟": "u"
+        }
+      }
+    }
+  }
+}
