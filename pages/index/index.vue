@@ -1,10 +1,15 @@
 <template>
 	<view>
 		<view class="light" style="background-color: white">
-			<ewf-demo v-model:options="state.items" v-model:defaultValue="state.default" @on-change="changeEvent">
-			</ewf-demo>
+<!-- 			<ewf-demo v-model:options="state.items" v-model:defaultValue="state.default" @on-change="changeEvent">
+			</ewf-demo> -->
+			<wo-infinite-scroll v-slot="slotProps" style="mask-image: linear-gradient(90deg, transparent, #fff 20%, #fff 80%, transparent);">
+				<view style="display: flex;">
+					<view>{{ slotProps.data.label }}</view>
+				</view>
+			</wo-infinite-scroll>
 		</view>
-		<view class="light">
+<!-- 		<view class="light">
 			<ewf-demo v-model:options="state.items" v-model:defaultValue="state.default" v-model:styleObj="state.theme.light"
 				v-slot="slotProps" @on-change="changeEvent">
 				<view style="display: flex;">
@@ -21,7 +26,7 @@
 					<view class="tag">{{ slotProps.data.tag }}</view>
 				</view>
 			</ewf-demo>
-		</view>
+		</view> -->
 	</view>
 
 </template>
@@ -84,11 +89,11 @@ const changeEvent = (el) => {
 <style lang="scss" scoped>
 .light {
 	border-radius: 10px;
-	padding: 20rpx;
+	// padding: 20rpx;
 	font-size: 24rpx;
 	background-color: hsl(223, 90%, 90%);
-	margin: 20px;
-	height: 300px;
+	// margin: 20px;
+	// height: 300px;
 	overflow: auto;
 }
 
