@@ -2,9 +2,13 @@
   "id": "wo-infinite-scroll",
   "displayName": "wo-infinite-scroll",
   "version": "1.0.0",
-  "description": "wo-infinite-scroll",
+  "description": "wo-infinite-scroll, 采用 uniapp-vue3 实现, 是一款消息无限滚动组件",
   "keywords": [
-    "wo-infinite-scroll"
+    "scroll",
+    "wo-infinite-scroll",
+    "无限滚动",
+    "滚动消息",
+    "滚动",
 ],
   "repository": "",
   "engines": {
@@ -24,9 +28,9 @@
       "qq": ""
     },
     "declaration": {
-      "ads": "",
-      "data": "",
-      "permissions": ""
+      "ads": "无",
+      "data": "插件不采集任何数据",
+      "permissions": "无"
     },
     "npmurl": ""
   },
@@ -41,8 +45,8 @@
       },
       "client": {
         "Vue": {
-          "vue2": "u",
-          "vue3": "u"
+          "vue2": "n",
+          "vue3": "y"
         },
         "App": {
           "app-vue": "u",
@@ -56,14 +60,14 @@
           "QQ浏览器(Android)": "u"
         },
         "H5-pc": {
-          "Chrome": "u",
+          "Chrome": "y",
           "IE": "u",
           "Edge": "u",
           "Firefox": "u",
           "Safari": "u"
         },
         "小程序": {
-          "微信": "u",
+          "微信": "y",
           "阿里": "u",
           "百度": "u",
           "字节跳动": "u",

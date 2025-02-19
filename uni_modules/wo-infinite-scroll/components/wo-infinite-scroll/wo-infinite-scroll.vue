@@ -1,20 +1,19 @@
 <template>
 	<view :id="`scroll-main-${state.uniqueId}`" class="scroll" :style="{ '--t': state.speedSecond }">
 		<view class="scroll-content scroll-true" :id="`scroll-item-${state.uniqueId}`">
-			<view class="item" v-for="(item, index) in state.items" :key="index">
-				<slot :data="item">{{ item.label }}</slot>
+			<view :style="state.styleObject" class="item" v-for="(item, index) in state.items" :key="index">
+				{{ item.label }}
 			</view>
 		</view>
 		<view class="scroll-content scroll-copy" v-show="state.isShowCopy">
-			<view class="item" v-for="(item, index) in state.items" :key="index">
-				<slot :data="item">{{ item.label }}</slot>
+			<view :style="state.styleObject" class="item" v-for="(item, index) in state.items" :key="index">
+				{{ item.label }}
 			</view>
 		</view>
 	</view>
 </template>
 <script setup lang="ts">
 import { reactive, getCurrentInstance, onMounted } from 'vue';
-
 const generateUniqueID = () => {
 	return Math.floor(Math.random() * Date.now()).toString(36);
 }
@@ -22,6 +21,7 @@ const props = withDefaults(
 	defineProps<{
 		options: any[];
 		speed: number;
+		styleObj: {}
 	}>(),
 	{
 		options: () => [
@@ -50,90 +50,105 @@ const props = withDefaults(
 				label: 'Photoshop',
 			},
 		],
-		speed: 10,
+		speed: 0,
+		styleObj: {
+			padding: '5px 15px',
+		}
 	}
 );
 
 const state = reactive({
 	items: props.options,
 	uniqueId: generateUniqueID(),
-	speedSecond: `${props.speed}s`,
-	isShowCopy: true
+	speedSecond: 0,
+	isShowCopy: true,
+	scrollItemWidth: 0,
+	scrollMainWidth: 0,
+	styleObject: props.styleObj,
 });
 
 const init = () => {
-	let scrollItemWidth = 0
-	let scrollMainWidth = 0
 	const instance = getCurrentInstance();
 	const query = uni.createSelectorQuery().in(instance.proxy);
 	query
 		.select(`#scroll-item-${state.uniqueId}`)
 		.boundingClientRect((data: any) => {
-			scrollItemWidth = data.width
+			state.scrollItemWidth = data.width
 		}).exec();
 	query
 		.select(`#scroll-main-${state.uniqueId}`)
 		.boundingClientRect((data: any) => {
-			scrollMainWidth = data.width
+			state.scrollMainWidth = data.width
 		}).exec();
-	// 当子元素占据的宽度长于父宽度时滚动，反正不滚动
-	if (scrollItemWidth < scrollMainWidth) {
-		state.speedSecond = '0s'
-		state.isShowCopy = false
-	} else {
-		state.speedSecond = `${props.speed}s`
-		state.isShowCopy = true
-	}
 }
+
 onMounted(() => {
 	init()
+	setTimeout(() => {
+		// 当子元素占据的宽度长于父宽度时滚动，反正不滚动
+		if (state.scrollItemWidth < state.scrollMainWidth) {
+			state.speedSecond = '0s'
+			state.isShowCopy = false
+		} else {
+			state.speedSecond = `${props.speed}s`
+			state.isShowCopy = true
+		}
+	}, 300)
 })
 </script>
 <style scoped>
 .scroll {
-  position: relative;
-  display: flex;
-  overflow: hidden;
+	position: relative;
+	display: flex;
+	overflow: hidden;
 }
-.scroll > .scroll-content .item {
-  display: inline-block;
-  padding: 5px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background-color 0.5s;
+
+.scroll-content .item {
+	display: inline-block;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: background-color 0.5s;
 }
-.scroll > .scroll-content {
-  white-space: nowrap;
-  animation: animate var(--t) linear infinite;
-  animation-delay: calc(var(--t) * -1);
+
+.scroll-content {
+	white-space: nowrap;
+	animation: animate var(--t) linear infinite;
+	animation-delay: calc(var(--t) * -1);
 }
+
 @keyframes animate {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+	0% {
+		transform: translateX(100%);
+	}
+
+	100% {
+		transform: translateX(-100%);
+	}
 }
-.scroll > .scroll-copy {
-  animation: animate2 var(--t) linear infinite;
-  animation-delay: calc(var(--t) / -2);
+
+.scroll-copy {
+	animation: animate2 var(--t) linear infinite;
+	animation-delay: calc(var(--t) / -2);
 }
+
 @keyframes animate2 {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-200%);
-  }
+	0% {
+		transform: translateX(0);
+	}
+
+	100% {
+		transform: translateX(-200%);
+	}
 }
-.scroll:hover > view {
-  animation-play-state: paused;
+
+.scroll:hover>view {
+	animation-play-state: paused;
 }
+
 @media screen and (max-width: 768px) {
-  .scroll {
-    width: 95vw;
-  }
+	.scroll {
+		width: 100vw;
+	}
 }
 </style>
