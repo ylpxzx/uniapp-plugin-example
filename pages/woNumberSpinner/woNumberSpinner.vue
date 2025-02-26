@@ -63,7 +63,7 @@ const $emit = defineEmits<{
 const state = reactive({
 	spinnerNumber: props.defaultValue,
 	meterStyle: {
-		height: 0
+		height: '0'
 	},
 	color: props.normalColor,
 	normalColor: props.normalColor,
