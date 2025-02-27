@@ -1,17 +1,21 @@
 {
-  "id": "wo-number-spinner",
-  "displayName": "wo-number-spinner",
-  "version": "1.0.0",
-  "description": "wo-number-spinner",
+  "id": "wo-spinner",
+  "displayName": "数字动画调节器",
+  "version": "1.0.1",
+  "description": "采用 uniapp-vue3 实现, 是一款数字动画调节器件，支持长按、单点操作，提供丝滑的增减动画效果，支持自定义配置，适配 web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）",
   "keywords": [
-    "wo-number-spinner"
+    "微旋器",
+    "调节器",
+    "温度计",
+    "动画",
+    "spinner"
 ],
   "repository": "",
   "engines": {
     "HBuilderX": "^3.1.0"
   },
   "dcloudext": {
-    "type": "uniapp-template-page",
+    "type": "component-vue",
     "sale": {
       "regular": {
         "price": "0.00"
@@ -24,9 +28,9 @@
       "qq": ""
     },
     "declaration": {
-      "ads": "",
-      "data": "",
-      "permissions": ""
+      "ads": "无",
+      "data": "插件不采集任何数据",
+      "permissions": "无"
     },
     "npmurl": ""
   },
@@ -35,19 +39,20 @@
     "encrypt": [],
     "platforms": {
       "cloud": {
-        "tcb": "u",
-        "aliyun": "u",
-        "alipay": "u"
+        "tcb": "y",
+        "aliyun": "y",
+        "alipay": "y"
       },
       "client": {
         "Vue": {
-          "vue2": "u",
-          "vue3": "u"
+          "vue2": "n",
+          "vue3": "y"
         },
         "App": {
-          "app-vue": "u",
-          "app-nvue": "u",
-          "app-uvue": "u"
+            "app-vue": "u",
+            "app-nvue": "u",
+            "app-uvue": "u",
+            "app-harmony": "u"
         },
         "H5-mobile": {
           "Safari": "u",
@@ -56,14 +61,14 @@
           "QQ浏览器(Android)": "u"
         },
         "H5-pc": {
-          "Chrome": "u",
+          "Chrome": "y",
           "IE": "u",
           "Edge": "u",
           "Firefox": "u",
           "Safari": "u"
         },
         "小程序": {
-          "微信": "u",
+          "微信": "y",
           "阿里": "u",
           "百度": "u",
           "字节跳动": "u",

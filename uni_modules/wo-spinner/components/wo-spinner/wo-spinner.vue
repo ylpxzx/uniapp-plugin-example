@@ -1,5 +1,5 @@
 <template>
-	<view class="layout" :style="{
+	<view :style="{
 		'--spinner-height': props.spinnerHeight,
 		'--spinner-width': props.spinnerWidth,
 		'--spinner-bg-color': props.spinnerBgColor,
@@ -25,30 +25,30 @@
 import { reactive, watch, onMounted } from 'vue';
 const props = withDefaults(
 	defineProps<{
-		normalColor: string;
-		warningColor: string;
-		abnormalColor: string;
-		targetNumber: number;
-		span: number;
-		warningNumber: number;
-		abnormalNumber: number;
-		defaultValue: number;
-		spinnerHeight: string;
-		spinnerWidth: string;
-		spinnerBgColor: string;
-		spinnerRadius: string;
-		progressWidth: string;
-		progressBgColor: string;
+		startColor: string;  // 色标起始色
+		middleColor: string;  // 色标中间色
+		targetColor: string;  // 色标最终色
+		maxNumber: number;  // 色标最大值
+		middleNumber: number;  // 色标中间值
+		criticalNumber: number;  // 色标临界值
+		spanNumber: number;  // 色标增减跨度
+		defaultValue: number;  // 色标默认值
+		spinnerHeight: string;  // 容器高度
+		spinnerWidth: string;  // 容器宽度
+		spinnerBgColor: string;  // 容器背景色
+		spinnerRadius: string;  // 容器圆角
+		progressWidth: string;  // 色标宽度
+		progressBgColor: string;  // 色标背景色
 	}>(),
 	{
-		normalColor: '#0f0',
-		warningColor: '#ff0',
-		abnormalColor: '#f00',
-		targetNumber: 100,
-		span: 1,
-		warningNumber: 70,
-		abnormalNumber: 90,
-		defaultValue: 92,
+		startColor: '#0f0',
+		middleColor: '#ff0',
+		targetColor: '#f00',
+		maxNumber: 100,
+		spanNumber: 1,
+		middleNumber: 70,
+		criticalNumber: 90,
+		defaultValue: 0,
 		spinnerHeight: '400px',
 		spinnerWidth: '50px',
 		spinnerBgColor: '#333',
@@ -65,42 +65,43 @@ const state = reactive({
 	meterStyle: {
 		height: '0'
 	},
-	color: props.normalColor,
-	normalColor: props.normalColor,
-	warningColor: props.warningColor,
-	abnormalColor: props.abnormalColor,
-	targetNumber: props.targetNumber,
-	span: props.span,
-	warningNumber: props.warningNumber,
-	abnormalNumber: props.abnormalNumber
+	color: props.startColor,
+	startColor: props.startColor,
+	middleColor: props.middleColor,
+	targetColor: props.targetColor,
+	maxNumber: props.maxNumber,
+	spanNumber: props.spanNumber,
+	middleNumber: props.middleNumber,
+	criticalNumber: props.criticalNumber
 })
 
 watch(() => props.defaultValue, (val) => {
-	state.color = props.normalColor
-	if (val > props.abnormalNumber) {
-		state.color = props.abnormalColor
+	state.color = props.startColor
+	if (props.criticalNumber && val > props.criticalNumber) {
+		state.color = props.targetColor
 	}
-	if (val > props.warningNumber) {
-		state.color = props.warningColor
+	if (props.middleNumber && val > props.middleNumber) {
+		state.color = props.middleColor
 	}
 	state.spinnerNumber = val
-	state.meterStyle.height = state.spinnerNumber + '%';
+
+	state.meterStyle.height = (state.spinnerNumber / state.maxNumber) * 100 + '%';
 })
 
 let interval = null;
 
 const onPlus = () => {
-	if (state.spinnerNumber >= state.targetNumber) {
+	if (state.spinnerNumber >= state.maxNumber) {
 		return;
 	}
-	if (state.spinnerNumber >= state.warningNumber) {
-		state.color = state.warningColor
+	if (state.middleNumber && state.spinnerNumber >= state.middleNumber) {
+		state.color = state.middleColor
 	}
-	if (state.spinnerNumber >= state.abnormalNumber) {
-		state.color = state.abnormalColor
+	if (state.criticalNumber && state.spinnerNumber >= state.criticalNumber) {
+		state.color = state.targetColor
 	}
-	state.spinnerNumber = state.spinnerNumber + state.span;
-	state.meterStyle.height = state.spinnerNumber + '%';
+	state.spinnerNumber = state.spinnerNumber + state.spanNumber;
+	state.meterStyle.height = (state.spinnerNumber / state.maxNumber) * 100 + '%';
 	$emit('onChange', { value: state.spinnerNumber });
 }
 
@@ -108,20 +109,20 @@ const onMinus = () => {
 	if (state.spinnerNumber <= 0) {
 		return;
 	}
-	if (state.spinnerNumber <= state.abnormalNumber) {
-		state.color = state.warningColor
+	if (state.criticalNumber && state.spinnerNumber <= state.criticalNumber) {
+		state.color = state.middleColor
 	}
-	if (state.spinnerNumber <= state.warningNumber) {
-		state.color = state.normalColor
+	if (state.middleNumber && state.spinnerNumber <= state.middleNumber) {
+		state.color = state.startColor
 	}
-	state.spinnerNumber = state.spinnerNumber - state.span
-	state.meterStyle.height = state.spinnerNumber + '%'
+	state.spinnerNumber = state.spinnerNumber - state.spanNumber
+	state.meterStyle.height = (state.spinnerNumber / state.maxNumber) * 100 + '%';
 	$emit('onChange', { value: state.spinnerNumber });
 }
 const startLongPressPlus = () => {
 	interval = setInterval(() => {
 		onPlus();
-		if (state.spinnerNumber >= state.targetNumber) {
+		if (state.spinnerNumber >= state.maxNumber) {
 			clearInterval(interval);
 		}
 	}, 100);
@@ -144,26 +145,18 @@ const stopLongPress = () => {
 }
 
 onMounted(() => {
-	state.color = props.normalColor
-	if (state.spinnerNumber > props.abnormalNumber) {
-		state.color = props.abnormalColor
+	state.color = props.startColor
+	if (props.middleNumber && state.spinnerNumber > props.middleNumber) {
+		state.color = props.middleColor
 	}
-	if (state.spinnerNumber > props.warningNumber) {
-		state.color = props.warningColor
+	if (props.criticalNumber && state.spinnerNumber > props.criticalNumber) {
+		state.color = props.targetColor
 	}
-	state.meterStyle.height = state.spinnerNumber + '%';
+	state.meterStyle.height = (state.spinnerNumber / state.maxNumber) * 100 + '%';
 })
 </script>
 
 <style>
-.layout {
-	color: #fff;
-	margin-top: 20px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
 .box {
 	width: var(--spinner-width);
 	height: var(--spinner-height);
@@ -172,7 +165,6 @@ onMounted(() => {
 	align-items: center;
 	background: var(--spinner-bg-color);
 	border-radius: var(--spinner-radius);
-	/* box-shadow: 0 5px 50px rgba(0, 0, 0, 0.5); */
 }
 
 .spinner {
