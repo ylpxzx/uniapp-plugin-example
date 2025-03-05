@@ -1,7 +1,7 @@
 {
   "id": "wo-range-selector",
   "displayName": "woRangeSelector时间选择器",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "woRangeSelector是一款范围选择器，可用于时间选择器，段落选择器等应用场景",
   "keywords": [
     "选择器",
@@ -47,9 +47,10 @@
           "vue3": "y"
         },
         "App": {
-          "app-vue": "u",
-          "app-nvue": "u",
-          "app-uvue": "u"
+            "app-vue": "u",
+            "app-nvue": "u",
+            "app-uvue": "u",
+            "app-harmony": "u"
         },
         "H5-mobile": {
           "Safari": "u",
