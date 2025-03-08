@@ -183,7 +183,7 @@ export default {
 
 .header {
   background: linear-gradient(180deg, #1C2D41 0%, #546366 100%);
-  padding: 70rpx 30rpx 80rpx 30rpx;
+  padding: 100rpx 30rpx 80rpx 30rpx;
 
   .user-info {
     display: flex;
