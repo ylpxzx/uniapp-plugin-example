@@ -2,50 +2,49 @@
   <view class="container">
     <!-- 可滚动内容 -->
     <scroll-view class="scroll-view" scroll-y @scroll="handleScroll" :scroll-top="scrollTop">
-      <!-- 头部区域 -->
-      <view class="profile-header">
-        <!-- 用户信息 -->
-        <view class="header">
-          <view class="user-info">
-            <view class="avatar-box">
-              <view class="avatar gradient-circle large"></view>
+      <!-- 用户信息 -->
+      <view class="header">
+        <view class="user-info">
+          <view class="avatar-box">
+            <view class="gradient-circle large">
+              <image class="avatar-img" src="/static/my-notion-face-portrait.png" @error="imageError"></image>
             </view>
-            <view style="display: flex; justify-content: center; align-items: center;">
-              <view class="info-section">
-                <view class="name-row">
-                  <text class="username">ylp</text>
-                </view>
-                <text class="user-id">ID: xhs_123456789</text>
-              </view>
+            <view class="upload-sign">
+              <view>+</view>
             </view>
           </view>
-          <view style="color: #BCC1C4; font-size: 28rpx; padding-top: 34rpx;">everything will be fine.</view>
-          <view style="display: flex; padding-top: 20rpx;">
-            <view class="level-badge">Lv.12</view>
-            <view style="display: flex; justify-content: center; align-items: center;">
-              <view class="gender-badge">♀</view>
+          <view class="flex-center">
+            <view>
+              <view class="name-row">
+                <text class="username">ylp</text>
+              </view>
+              <text class="user-id">ID: xhs_123456789</text>
             </view>
           </view>
-          <!-- 数据面板 -->
-          <view
-            style="display: flex; justify-content: space-between; font-size: 26rpx; padding-top: 30rpx; color: #BCC1C4;">
-            <view style="display: flex; justify-content: space-between; gap: 50rpx;">
-              <view>
-                <view style="color: #EFFAFB;display: flex; justify-content: center; align-items: center;">256</view>
-                <view style="font-size: 22rpx;display: flex; justify-content: center; align-items: center;">关注</view>
-              </view>
-              <view>
-                <view style="color: #EFFAFB;display: flex; justify-content: center; align-items: center;">12.8万</view>
-                <view style="font-size: 22rpx;display: flex; justify-content: center; align-items: center;">粉丝</view>
-              </view>
-              <view>
-                <view style="color: #EFFAFB;display: flex; justify-content: center; align-items: center;">36.9万</view>
-                <view style="font-size: 22rpx;display: flex; justify-content: center; align-items: center;">获赞与收藏</view>
-              </view>
+        </view>
+        <view class="signature">everything will be fine.</view>
+        <view class="sign">
+          <view class="level-badge">Lv.12</view>
+          <view class="flex-center">
+            <view class="gender-badge">♀</view>
+          </view>
+        </view>
+        <!-- 数据面板 -->
+        <view class="data-panel">
+          <view class="user-data">
+            <view v-for="item in panelData" :key="item.label">
+              <view class="user-number">{{ item.value }}</view>
+              <view class="user-label">{{ item.label }}</view>
             </view>
-            <view class="action-btns">
-              <view class="btn">编辑资料</view>
-            </view>
+          </view>
+          <view class="edit-btns">
+            <view class="btn">编辑资料</view>
+          </view>
+        </view>
+        <view class="other-panel">
+          <view class="other-box" v-for="item in panelOtherData" :key="item.title">
+            <view class="other-title">{{ item.title }}</view>
+            <view class="other-label">{{ item.label }}</view>
           </view>
         </view>
       </view>
@@ -81,6 +80,34 @@
 export default {
   data() {
     return {
+      panelData: [
+        {
+          value: 256,
+          label: '关注'
+        },
+        {
+          value: '12.8万',
+          label: '粉丝'
+        },
+        {
+          value: '36.9万',
+          label: '获赞与收藏'
+        }
+      ],
+      panelOtherData: [
+        {
+          title: '购物',
+          label: '好逛好玩又好买'
+        },
+        {
+          title: '订单',
+          label: '查看我的订单'
+        },
+        {
+          title: '购物车',
+          label: '10个商品'
+        }
+      ],
       navBarBackground: 'red',
       titleOpacity: 0,
       scrollTop: 0,
@@ -111,14 +138,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  background: #f5f5f5;
-  height: 100vh;
-}
-
-/* 通用渐变样式 */
 .gradient {
-
   &-circle {
     border-radius: 50%;
     background: white;
@@ -131,8 +151,6 @@ export default {
     }
   }
 
-
-
   &-gray {
     background: linear-gradient(45deg, #D3D3D3, #A9A9A9);
   }
@@ -142,7 +160,7 @@ export default {
   }
 
   &-image {
-    background: linear-gradient(45deg, #FFA07A, #FF69B4);
+    background: linear-gradient(180deg, #1C2D41 0%, #546366 100%);
     padding-top: 133%;
     border-radius: 16rpx;
   }
@@ -153,48 +171,78 @@ export default {
   }
 
   &-accent {
-    background: linear-gradient(90deg, #FF6B6B, #FF8787);
+    background: linear-gradient(90deg, #1C2D41, #546366);
   }
 }
 
-/* 个人资料头部 */
-.profile-header {
-  position: relative;
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .header {
-    background: linear-gradient(180deg, #1C2D41 0%, #546366 100%);
-    padding: 100rpx 20rpx 100rpx 40rpx;
+.header {
+  background: linear-gradient(180deg, #1C2D41 0%, #546366 100%);
+  padding: 70rpx 30rpx 80rpx 30rpx;
 
-    .user-info {
-      display: flex;
+  .user-info {
+    display: flex;
 
-      .avatar-box {
-        position: relative;
-        margin-right: 32rpx;
+    .avatar-box {
+      position: relative;
+      margin-right: 32rpx;
+
+      .avatar-img {
+        width: 160rpx;
+        height: 160rpx;
+        border-radius: 50%;
       }
-    }
 
-    .info-section {
-      flex: 1;
-
-      .name-row {
+      .upload-sign {
+        font-size: 36rpx;
+        line-height: 20rpx;
         display: flex;
+        justify-content: center;
         align-items: center;
-        margin-bottom: 10rpx;
-
-        .username {
-          color: #EFFAFB;
-          font-size: 30rpx;
-          font-weight: 700;
-          margin-right: 16rpx;
-        }
-      }
-
-      .user-id {
-        color: #90A4AB;
-        font-size: 24rpx;
+        background-color: #FAE93E;
+        position: absolute;
+        font-weight: 600;
+        right: 12rpx;
+        bottom: 6rpx;
+        border-radius: 50%;
+        width: 40rpx;
+        height: 40rpx;
       }
     }
+  }
+
+  .name-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10rpx;
+
+    .username {
+      color: #EFFAFB;
+      font-size: 30rpx;
+      font-weight: 700;
+      margin-right: 16rpx;
+    }
+  }
+
+  .user-id {
+    color: #90A4AB;
+    font-size: 24rpx;
+  }
+
+  .signature {
+    color: #BCC1C4;
+    font-size: 28rpx;
+    padding-top: 34rpx;
+  }
+
+  .sign {
+    display: flex;
+    padding-top: 20rpx;
 
     .gender-badge {
       display: flex;
@@ -221,8 +269,36 @@ export default {
       margin-right: 12rpx;
     }
   }
+}
 
-  .action-btns {
+.data-panel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 26rpx;
+  padding: 50rpx 0;
+  color: #BCC1C4;
+
+  .user-data {
+    display: flex;
+    justify-content: space-between;
+    gap: 50rpx;
+
+    .user-number {
+      color: #EFFAFB;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .user-label {
+      font-size: 22rpx;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .edit-btns {
     display: flex;
 
     .btn {
@@ -233,6 +309,29 @@ export default {
       background-color: #637376;
       display: flex;
       align-items: center;
+    }
+  }
+}
+
+.other-panel {
+  font-size: 24rpx;
+  color: #BCC1C4;
+  display: flex;
+  gap: 20rpx;
+
+  .other-box {
+    background-color: #637376;
+    padding: 20rpx;
+    border-radius: 16rpx;
+    width: 200rpx;
+
+    .other-label {
+      font-size: 20rpx;
+    }
+
+    .other-title {
+      color: #EFFAFB;
+      padding-bottom: 6rpx;
     }
   }
 }
