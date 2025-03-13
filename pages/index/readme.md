@@ -1,226 +1,319 @@
-# wo-spinner
+# wo-step-indicator
 
-> 采用 uniapp-vue3 实现, 是一款数字动画调节器件，支持长按、单点操作，提供丝滑的增减动画效果，支持自定义配置，适配 web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）
+> 采用 uniapp 实现的一款步进指示器组件，展示业务步骤进度等内容，对外提供“前进”、“后退”方法，让用户可高度自定义所需交互，适配 web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）
 
 ## props 属性
 
-### defaultValue
+### defaultStep
 
-> 默认值
+> 默认步骤值（步骤值从1开始）
 
 ```js
-defaultValue: {
-    type: number,
-    default: 0,
+defaultStep: {
+	type: number,
+	default: 1,
 },
 ```
 
-### spinnerHeight
 
-> 容器高度
+### options
+
+> 步骤选项值
 
 ```js
-spinnerHeight: {
-    type: string,
-    default: '400px',
+options: {
+  type: Array,
+  default: () => [
+    { index: 'A', name: 'Step 1' },
+    { index: 'B', name: 'Step 2' },
+    { index: 'C', name: 'Step 3' },
+    { index: 'D', name: 'Step 4' },
+  ],
 },
 ```
 
-### spinnerWidth
+## 对外提供的方法
 
-> 容器宽度
+### prev()
+后退方法，步骤值-1
 
-```js
-spinnerWidth: {
-    type: string,
-    default: '50px',
-},
-```
-
-### spinnerBgColor
-
-> 容器背景色
-
-```js
-spinnerBgColor: {
-    type: string,
-    default: '#333',
-},
-```
-
-### spinnerRadius
-
-> 容器圆角
-
-```js
-spinnerRadius: {
-    type: string,
-    default: '10px',
-},
-```
-
-### progressWidth
-
-> 色标宽度
-
-```js
-progressWidth: {
-    type: string,
-    default: '12px',
-},
-```
-
-### progressBgColor
-
-> 色标背景色
-
-```js
-progressBgColor: {
-    type: string,
-    default: '#222',
-},
-```
-
-### startColor
-
-> 色标起始色
-
-```js
-startColor: {
-    type: string,
-    default: '#0f0',
-},
-```
-
-### middleColor
-
-> 色标中间色（当数值达到中间值 middleNumber 后呈现的颜色）
-
-```js
-middleColor: {
-    type: string,
-    default: '#ff0',
-},
-```
-
-### targetColor
-
-> 色标最终色（当数值达到临界值 criticalNumber 后呈现的颜色）
-
-```js
-targetColor: {
-    type: string,
-    default: '#f00',
-},
-```
-
-### maxNumber
-
-> 色标最大值
-
-```js
-maxNumber: {
-    type: number,
-    default: 100,
-},
-```
-
-### middleNumber
-
-> 色标中间值
-
-```js
-middleNumber: {
-    type: number,
-    default: 70,
-},
-```
-
-### criticalNumber
-
-> 色标临界值
-
-```js
-criticalNumber: {
-    type: number,
-    default: 90,
-},
-```
-
-### spanNumber
-
-> 色标增减跨度
-
-```js
-spanNumber: {
-    type: number,
-    default: 1,
-},
-```
+### next()
+前进方法，步骤值+1
 
 ## 事件
 
-### @onChange
+### @change
 
-> 点击增减时触发，返回增减后的值: {value: 56}
+> 触发“前进”、“后退”方法时触发，返回当前所在步骤数据
+
+```js
+{
+	step: 1,
+	data: {
+		... // options内设置选项值，如options[step], 即options[1]
+	}
+}
+```
 
 ## 使用示例
-
+分别演示vue2、vue3 setup示例
+### vue2 写法
 ```vue
 <template>
   <view>
-    <view>值：{{ state.val }}</view>
-    <view class="light">
-      <wo-spinner
-        v-model:defaultValue="state.normalVal"
-        @on-change="changeEvent"
-      ></wo-spinner>
-      <wo-spinner v-model:defaultValue="state.warningVal"></wo-spinner>
-      <wo-spinner v-model:defaultValue="state.abnormalVal"></wo-spinner>
-      <wo-spinner
-        :spinnerHeight="'300px'"
-        :spinnerWidth="'70px'"
-        :spinnerRadius="'40px'"
-        :progressWidth="'30px'"
-      ></wo-spinner>
-      <wo-spinner
-        v-model:defaultValue="state.defaultVal"
-        :spinnerBgColor="'#0079FF'"
-        :progressBgColor="'#ADE8FF'"
-        :maxNumber="10"
-        :middleNumber="0"
-        :criticalNumber="7"
-        :startColor="'#f00'"
-        :middleColor="'#ff0'"
-        :targetColor="'#269446'"
-      ></wo-spinner>
-    </view>
+		<view class="font-class">示例一：</view>
+		<view>
+			<view style="background-color: #272822; padding: 10px; margin: 10px; border-radius: 6px; color: #fff;">
+				<wo-step-indicator :default-step="1" :options="steps" ref="stepIndicator1" @change="onChangeStep"></wo-step-indicator>
+			</view>
+			<view style="padding: 10px 0; margin: 0 10px;">
+			  <view v-show="step === 1">
+			    <view
+			      style="height: 100px; width: 100%; border-radius: 6px; background-color: #299B48; color: #fff; display: flex; justify-content: center; align-items: center;">
+			      步骤一
+			    </view>
+			  </view>
+			  <view v-show="step === 2">
+			    <view
+			      style="height: 100px; width: 100%; border-radius: 6px; background-color:#FF5739; color: #fff; display: flex; justify-content: center; align-items: center;">
+			      步骤二
+			    </view>
+			  </view>
+			  <view v-show="step === 3">
+			    <view
+			      style="height: 100px; width: 100%; border-radius: 6px; background-color: #41A5E1; color: #fff; display: flex; justify-content: center; align-items: center;">
+			      步骤三
+			    </view>
+			  </view>
+			  <view v-show="step === 4">
+			    <view
+			      style="height: 100px; width: 100%; border-radius: 6px; background-color: #272822; color: #fff; display: flex; justify-content: center; align-items: center;">
+			      步骤四
+			    </view>
+			  </view>
+			</view>
+		</view>
+		<view class="font-class">示例二：</view>
+		<view style="display: flex; gap: 10px;">
+			<view class="step-class" style="margin-right: 0px;">
+				<wo-step-indicator   ref="stepIndicator2" @change="onChangeStep"></wo-step-indicator>
+			</view>
+			<view style="margin: 10px 10px 10px 0; flex: 1;">
+			  <view v-show="step === 1">
+			    <view
+			      style="height: 200px; width: 100%; border-radius: 6px; background-color: #299B48; color: #fff; display: flex; justify-content: center; align-items: center;">
+			      步骤一
+			    </view>
+			  </view>
+			  <view v-show="step === 2">
+			    <view
+			      style="height: 200px; width: 100%; border-radius: 6px; background-color:#FF5739; color: #fff; display: flex; justify-content: center; align-items: center;">
+			      步骤二
+			    </view>
+			  </view>
+			  <view v-show="step === 3">
+			    <view
+			      style="height: 200px; width: 100%; border-radius: 6px; background-color: #41A5E1; color: #fff; display: flex; justify-content: center; align-items: center;">
+			      步骤三
+			    </view>
+			  </view>
+			  <view v-show="step === 4">
+			    <view
+			      style="height: 200px; width: 100%; border-radius: 6px; background-color: #272822; color: #fff; display: flex; justify-content: center; align-items: center;">
+			      步骤四
+			    </view>
+			  </view>
+			</view>
+		</view>
+		<view class="font-class">自定义操作：</view>
+		<view style="display: flex; gap: 10px; padding-top: 10px;">
+		  <button @click="prevStep" :disabled="step <= 1">上一步</button>
+		  <button @click="nextStep" :disabled="step >= steps.length">下一步</button>
+		  <button v-show="step >= steps.length">完成</button>
+		</view>
   </view>
 </template>
 
-<script setup lang="ts">
-import { reactive } from "vue";
-const state = reactive({
-  normalVal: 45,
-  warningVal: 72,
-  abnormalVal: 92,
-  defaultVal: 3,
-  val: 45,
-});
-const changeEvent = (el) => {
-  console.log("点击：", el);
-  state.val = el.value;
+<script>
+export default {
+  data() {
+    return {
+      steps: [
+        {
+          index: '1',
+          name: 'Step 1',
+        },
+        {
+          index: '2',
+          name: 'Step 2',
+        },
+        {
+          index: '3',
+          name: 'Step 3',
+        },
+        {
+          index: '4',
+          name: 'Step 4',
+        },
+      ],
+      step: 1,
+      stepIndicator1: null,
+			stepIndicator2: null
+    };
+  },
+  methods: {
+    prevStep() {
+      this.$refs.stepIndicator1.prev();
+			this.$refs.stepIndicator2.prev();
+    },
+    nextStep() {
+      this.$refs.stepIndicator1.next();
+			this.$refs.stepIndicator2.next();
+    },
+    onChangeStep(data) {
+      this.step = data.step;
+      console.log('Current step:', data);
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped>
-.light {
-  color: #fff;
-  padding: 20rpx;
-  font-size: 24rpx;
-  margin: 20px;
-  display: flex;
-  gap: 20px;
+<style>
+.font-class {
+	font-size: 12px;
+	padding: 10px 10px 0 10px;
+}
+.step-class {
+	background-color: #272822;
+	color: #fff;
+	padding: 15px;
+	margin: 10px;
+	border-radius: 6px;
+}
+</style>
+
+```
+
+### vue3 setup写法
+```vue
+<template>
+	<view>
+		<view class="font-class">示例一：</view>
+		<view>
+			<view style="background-color: #272822; padding: 10px; margin: 10px; border-radius: 6px; color: #fff;">
+				<wo-step-indicator :default-step="1" :options="steps" ref="stepIndicator1"
+					@change="onChangeStep"></wo-step-indicator>
+			</view>
+			<view style="padding: 10px 0; margin: 0 10px;">
+				<view v-show="step === 1">
+					<view
+						style="height: 100px; width: 100%; border-radius: 6px; background-color: #299B48; color: #fff; display: flex; justify-content: center; align-items: center;">
+						步骤一
+					</view>
+				</view>
+				<view v-show="step === 2">
+					<view
+						style="height: 100px; width: 100%; border-radius: 6px; background-color:#FF5739; color: #fff; display: flex; justify-content: center; align-items: center;">
+						步骤二
+					</view>
+				</view>
+				<view v-show="step === 3">
+					<view
+						style="height: 100px; width: 100%; border-radius: 6px; background-color: #41A5E1; color: #fff; display: flex; justify-content: center; align-items: center;">
+						步骤三
+					</view>
+				</view>
+				<view v-show="step === 4">
+					<view
+						style="height: 100px; width: 100%; border-radius: 6px; background-color: #272822; color: #fff; display: flex; justify-content: center; align-items: center;">
+						步骤四
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="font-class">示例二：</view>
+		<view style="display: flex; gap: 10px;">
+			<view class="step-class" style="margin-right: 0px;">
+				<wo-step-indicator ref="stepIndicator2" @change="onChangeStep"></wo-step-indicator>
+			</view>
+			<view style="margin: 10px 10px 10px 0; flex: 1;">
+				<view v-show="step === 1">
+					<view
+						style="height: 200px; width: 100%; border-radius: 6px; background-color: #299B48; color: #fff; display: flex; justify-content: center; align-items: center;">
+						步骤一
+					</view>
+				</view>
+				<view v-show="step === 2">
+					<view
+						style="height: 200px; width: 100%; border-radius: 6px; background-color:#FF5739; color: #fff; display: flex; justify-content: center; align-items: center;">
+						步骤二
+					</view>
+				</view>
+				<view v-show="step === 3">
+					<view
+						style="height: 200px; width: 100%; border-radius: 6px; background-color: #41A5E1; color: #fff; display: flex; justify-content: center; align-items: center;">
+						步骤三
+					</view>
+				</view>
+				<view v-show="step === 4">
+					<view
+						style="height: 200px; width: 100%; border-radius: 6px; background-color: #272822; color: #fff; display: flex; justify-content: center; align-items: center;">
+						步骤四
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="font-class">自定义操作：</view>
+		<view style="display: flex; gap: 10px; padding-top: 10px;">
+			<button @click="prevStep" :disabled="step <= 1">上一步</button>
+			<button @click="nextStep" :disabled="step >= steps.length">下一步</button>
+			<button v-show="step >= steps.length">完成</button>
+		</view>
+	</view>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const steps = ref([
+	{ index: '1', name: 'Step 1' },
+	{ index: '2', name: 'Step 2' },
+	{ index: '3', name: 'Step 3' },
+	{ index: '4', name: 'Step 4' },
+]);
+
+const step = ref(1);
+const stepIndicator1 = ref(null);
+const stepIndicator2 = ref(null);
+
+const prevStep = () => {
+	stepIndicator1.value.prev();
+	stepIndicator2.value.prev();
+};
+
+const nextStep = () => {
+	stepIndicator1.value.next();
+	stepIndicator2.value.next();
+};
+
+const onChangeStep = (data) => {
+	step.value = data.step;
+	console.log('Current step:', data);
+};
+</script>
+
+<style>
+.font-class {
+	font-size: 12px;
+	padding: 10px 10px 0 10px;
+}
+
+.step-class {
+	background-color: #272822;
+	color: #fff;
+	padding: 15px;
+	margin: 10px;
+	border-radius: 6px;
 }
 </style>
 ```
