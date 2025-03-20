@@ -1,14 +1,13 @@
 {
-  "id": "wo-spinner",
-  "displayName": "数字动画调节器",
-  "version": "1.0.1",
-  "description": "采用 uniapp-vue3 实现, 是一款数字动画调节器件，支持长按、单点操作，提供丝滑的增减动画效果，支持自定义配置，适配 web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）",
+  "id": "wo-dropdown-menu",
+  "displayName": "下拉菜单 dropdown menu",
+  "version": "1.0.0",
+  "description": "采用 uniapp 实现, 是一款具备丝滑折叠、展开动画的下拉菜单，支持 vue2、vue3；适配 web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）",
   "keywords": [
-    "微旋器",
-    "调节器",
-    "温度计",
-    "动画",
-    "spinner"
+    "菜单",
+    "下拉菜单",
+    "menu",
+    "dropdown-menu"
 ],
   "repository": "",
   "engines": {
@@ -45,7 +44,7 @@
       },
       "client": {
         "Vue": {
-          "vue2": "n",
+          "vue2": "y",
           "vue3": "y"
         },
         "App": {
@@ -63,8 +62,8 @@
         "H5-pc": {
           "Chrome": "y",
           "IE": "u",
-          "Edge": "u",
-          "Firefox": "u",
+          "Edge": "y",
+          "Firefox": "y",
           "Safari": "u"
         },
         "小程序": {

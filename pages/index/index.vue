@@ -1,42 +1,83 @@
 <template>
 	<view>
-		<view>值：{{ state.val }}</view>
-		<view class="light">
-			<wo-spinner v-model:defaultValue="state.normalVal" @on-change="changeEvent"></wo-spinner>
-			<wo-spinner v-model:defaultValue="state.warningVal"></wo-spinner>
-			<wo-spinner v-model:defaultValue="state.abnormalVal"></wo-spinner>
-			<wo-spinner :spinnerHeight="'300px'" :spinnerWidth="'70px'" :spinnerRadius="'40px'"
-				:progressWidth="'30px'"></wo-spinner>
-			<wo-spinner v-model:defaultValue="state.defaultVal" :spinnerBgColor="'#0079FF'" :progressBgColor="'#ADE8FF'"
-				:maxNumber="10" :middleNumber="0" :criticalNumber="7" :startColor="'#f00'" :middleColor="'#ff0'"
-				:targetColor="'#269446'"></wo-spinner>
+		<view>
+			<view class="title">默认样式：</view>
+			<view class="comp">
+				<wo-dropdown-menu :options="options"></wo-dropdown-menu>
+			</view>
+		</view>
+		<view>
+			<view class="title">自定义样式：</view>
+			<view style="border: 1px solid #999; margin: 5px; font-size: 12px; border-radius: 5px;">
+				<wo-dropdown-menu></wo-dropdown-menu>
+			</view>
+			<view class="comp-dark">
+				<wo-dropdown-menu :options="options" :default-value="4" @change="onChange"></wo-dropdown-menu>
+			</view>
 		</view>
 	</view>
-
 </template>
 
-<script setup lang="ts">
-import { reactive } from 'vue';
-const state = reactive({
-	normalVal: 45,
-	warningVal: 72,
-	abnormalVal: 92,
-	defaultVal: 3,
-	val: 45
-});
-const changeEvent = (el) => {
-	console.log('点击：', el);
-	state.val = el.value;
-}
+<script>
+export default {
+	data() {
+		return {
+			options: [
+				{
+					label: "荆轲",
+					value: 1
+				},
+				{
+					label: "李白",
+					value: 2
+				},
+				{
+					label: "杜甫",
+					value: 3
+				},
+				{
+					label: "白居易",
+					value: 4
+				},
+				{
+					label: "王维",
+					value: 5
+				},
+				{
+					label: "李清照",
+					value: 6
+				},
+				{
+					label: "苏轼",
+					value: 7
+				}
+			]
+		};
+	},
+	methods: {
+		onChange(data) {
+			console.log('选择值：', data);
+		}
+	}
+};
 </script>
 
 <style lang="scss" scoped>
-.light {
-	color: #fff;
-	padding: 20rpx;
-	font-size: 24rpx;
-	margin: 20px;
-	display: flex;
-	gap: 20px;
+.title {
+	font-size: 12px;
+	color: #999;
+	padding: 10px 0 0 10px;
+}
+
+.comp {
+	font-size: 12px;
+}
+
+.comp-dark {
+	margin: 5px;
+	background-color: black;
+	color: white;
+	font-size: 12px;
+	border-radius: 5px;
 }
 </style>
