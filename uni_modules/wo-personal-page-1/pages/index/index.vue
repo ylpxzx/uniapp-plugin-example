@@ -1,634 +1,189 @@
 <template>
-  <view class="layout">
-    <view>
-      <view class="user-page">
-        <view class="header">
-          <view class="user-info">
-            <view class="avatar-box">
-              <view class="gradient-circle large">
-                <image class="avatar-img" src="/static/my-notion-face-portrait.png"></image>
-              </view>
-              <view class="upload-sign">
-                <view>+</view>
-              </view>
+  <view class="container">
+    <!-- 可滚动内容 -->
+    <scroll-view class="scroll-view" scroll-y @scroll="handleScroll" :scroll-top="scrollTop">
+      <!-- 用户信息 -->
+      <view class="header">
+        <view class="user-info">
+          <view class="avatar-box">
+            <view class="gradient-circle large">
+              <image class="avatar-img" src="/static/my-notion-face-portrait.png" @error="imageError"></image>
             </view>
-            <view class="flex-center">
-              <view>
-                <view class="name-row">
-                  <text class="username">ylp</text>
-                </view>
-                <text class="user-id">ID: xhs_123456789</text>
-              </view>
+            <view class="upload-sign">
+              <view>+</view>
             </view>
           </view>
-          <view class="signature">everything will be fine.</view>
-          <view class="sign">
-            <view class="level-badge">Lv.12</view>
-            <view class="flex-center">
-              <view class="gender-badge">♀</view>
-            </view>
-          </view>
-          <!-- 数据面板 -->
-          <view class="data-panel">
-            <view class="user-data">
-              <view v-for="item in state.panelData" :key="item.label">
-                <view class="user-number">{{ item.value }}</view>
-                <view class="user-label">{{ item.label }}</view>
+          <view class="flex-center">
+            <view>
+              <view class="name-row">
+                <text class="username">ylp</text>
               </view>
-            </view>
-            <view class="edit-btns">
-              <view class="btn">编辑资料</view>
-            </view>
-          </view>
-          <view class="other-panel">
-            <view class="other-box" v-for="item in state.panelOtherData" :key="item.title">
-              <view class="other-title">{{ item.title }}</view>
-              <view class="other-label">{{ item.label }}</view>
+              <text class="user-id">ID: xhs_123456789</text>
             </view>
           </view>
         </view>
-        <view class="reds-sticky-box user-page-sticky" :class="[state.isSticky ? 'sticky' : '']" style="height: 72px;"
-          :style="{ '--stick-top': `${state.stickyHeight}px` }">
-          <view class="reds-sticky" :style="{ borderRadius: state.isSticky ? '' : '20px 20px 0 0' }">
-            <view class="reds-tabs-list">
-              <view id="sticky-tabs" style="display: flex;">
-                <view v-for="(item, index) in state.tab" :key="item.value" :id="`sticky-tabs-${item.value}`"
-                  class="reds-tab-item sub-tab-list" :class="[state.tabValue === item.value ? 'active' : '']"
-                  @click="onChangeTab(item, index)" style="padding: 0px 16px;">
-                  <text>{{ item.label }}</text>
-                </view>
-              </view>
-              <view class="active-tag"
-                style="transition: left 0.3s cubic-bezier(0.2, 0, 0.25, 1), width 0.3s cubic-bezier(0.2, 0, 0.25, 1)"
-                :style="{ left: `${state.tabLeft}px`, width: `${state.tabWidth}px` }"></view>
+        <view class="signature">everything will be fine.</view>
+        <view class="sign">
+          <view class="level-badge">Lv.12</view>
+          <view class="flex-center">
+            <view class="gender-badge">♀</view>
+          </view>
+        </view>
+        <!-- 数据面板 -->
+        <view class="data-panel">
+          <view class="user-data">
+            <view v-for="item in panelData" :key="item.label">
+              <view class="user-number">{{ item.value }}</view>
+              <view class="user-label">{{ item.label }}</view>
+            </view>
+          </view>
+          <view class="edit-btns">
+            <view class="btn">编辑资料</view>
+          </view>
+        </view>
+        <view class="other-panel">
+          <view class="other-box" v-for="item in panelOtherData" :key="item.title">
+            <view class="other-title">{{ item.title }}</view>
+            <view class="other-label">{{ item.label }}</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 内容区域 -->
+      <view class="content-section">
+        <!-- 标签栏 -->
+        <view class="tab-bar">
+          <view v-for="(tab, index) in tabs" :key="index" class="tab-item" :class="{ active: activeTab === index }"
+            @click="switchTab(index)">
+            {{ tab }}
+            <view class="indicator gradient-accent" v-if="activeTab === index"></view>
+          </view>
+        </view>
+
+        <!-- 瀑布流内容 -->
+        <view class="waterfall">
+          <view v-for="(item, index) in posts" :key="index" class="post-item" :style="{ width: itemWidth + 'px' }">
+            <view class="post-image gradient-image"></view>
+            <view class="post-info">
+              <view class="text-line gradient-text"></view>
+              <view class="text-line short gradient-text"></view>
+              <view class="stats gradient-text"></view>
             </view>
           </view>
         </view>
       </view>
-      <view v-if="state.tabValue === '2'" class="divider"></view>
-      <view class="feeds-tab-container">
-        <view class="transform-container"
-          :style="{ transform: state.transformValue, width: `${state.transformContainerWidth}px` }"
-          @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
-          <view class="tab-content-item"
-            :style="{ height: state.tabValue === '1' ? 'auto' : '0px', width: state.tabContentItemWidth, overflow: state.isChanging && (state.tabValue === '1' || state.beforeTabValue === '1') ? '' : 'hidden' }">
-            <view class="feeds-container" style="width: 100%; visibility:visible"
-              :style="{ height: state.isChanging && (state.tabValue === '1' || state.beforeTabValue === '1') ? `${computedMaxHeight()}px` : `${state.notesContainerElHeight}px` }">
-              <view v-for="(item, index) in state.notesList" :key="index" class="note-item"
-                :style="{ transform: item.transform, width: item.noteWidth }">
-                <view>
-                  <view class="cover mask ld" :style="{ width: item.coverWidth, height: item.coverHeight }">
-                    <view
-                      style="width: 100%; height: 100%; background-color: #999; display: flex; justify-content: center; align-items: center; color: #fff; font-weight: 600;">
-                      {{ item.label }}</view>
-                  </view>
-                  <view class="footer">
-                    <view class="title">
-                      <view
-                        style="width: 100%; height: 20px; background-color: #999; border-radius: 10px; margin-top: 6px;">
-                      </view>
-                    </view>
-                  </view>
-                </view>
-              </view>
-            </view>
-          </view>
-          <view class="tab-content-item"
-            :style="{ height: state.tabValue === '2' ? 'auto' : '0px', width: state.tabContentItemWidth, overflow: state.isChanging && (state.tabValue === '2' || state.beforeTabValue === '2') ? '' : 'hidden' }">
-            <view class="sub-tab-list">
-              <view class="left reds-tabs-list" style="padding:0px 0px;">
-                <view class="reds-tab-item active" style="padding:0px 16px;margin-right:0px;font-size:16px;"
-                  data-v-64126f47=""><span>笔记・108</span></view>
-                <view class="reds-tab-item" style="padding:0px 16px;margin-right:0px;font-size:16px;"
-                  data-v-64126f47=""><span>专辑・0</span></view>
-                <view class="active-tag" style="width: 109.609px; left: 0px;"></view>
-              </view>
-            </view>
-            <view class="feeds-container" style="width: 100%; visibility:visible"
-              :style="{ height: state.isChanging && (state.tabValue === '2' || state.beforeTabValue === '2') ? `${computedMaxHeight()}px` : `${state.colletsContainerElHeight}px` }">
-              <view v-for="(item, index) in state.colletsList" :key="index" class="note-item"
-                :style="{ transform: item.transform, width: item.noteWidth }">
-                <view>
-                  <view class="cover mask ld" :style="{ width: item.coverWidth, height: item.coverHeight }">
-                    <view
-                      style="width: 100%; height: 100%; background-color: #999; display: flex; justify-content: center; align-items: center; color: #fff; font-weight: 600;">
-                      {{ item.label }}</view>
-                  </view>
-                  <view class="footer">
-                    <view class="title">
-                      <view
-                        style="width: 100%; height: 20px; background-color: #999; border-radius: 10px; margin-top: 6px;">
-                      </view>
-                    </view>
-                  </view>
-                </view>
-              </view>
-            </view>
-          </view>
-          <view class="tab-content-item"
-            :style="{ height: state.tabValue === '3' ? 'auto' : '0px', width: state.tabContentItemWidth, overflow: state.isChanging && (state.tabValue === '3' || state.beforeTabValue === '3') ? '' : 'hidden' }">
-            <view class="feeds-container" style="width: 100%; visibility:visible"
-              :style="{ height: state.isChanging && (state.tabValue === '3' || state.beforeTabValue === '3') ? `${computedMaxHeight()}px` : `${state.likesContainerElHeight}px` }">
-              <view v-for="(item, index) in state.likesList" :key="index" class="note-item"
-                :style="{ transform: item.transform, width: item.noteWidth }">
-                <view>
-                  <view class="cover mask ld" :style="{ width: item.coverWidth, height: item.coverHeight }">
-                    <view
-                      style="width: 100%; height: 100%; background-color: #999; display: flex; justify-content: center; align-items: center; color: #fff; font-weight: 600;">
-                      {{ item.label }}</view>
-                  </view>
-                  <view class="footer">
-                    <view class="title">
-                      <view
-                        style="width: 100%; height: 20px; background-color: #999; border-radius: 10px; margin-top: 6px;">
-                      </view>
-                    </view>
-                  </view>
-                </view>
-              </view>
-            </view>
-          </view>
-        </view>
-      </view>
-    </view>
+    </scroll-view>
   </view>
-  <view class="bottom-menu"></view>
 </template>
 
-<script setup>
-import { reactive, getCurrentInstance, nextTick, watch, onMounted } from 'vue'
-import { onPageScroll } from '@dcloudio/uni-app'
-const instance = getCurrentInstance();
-
-const state = reactive({
-  panelData: [
-    {
-      value: 256,
-      label: '关注'
-    },
-    {
-      value: '12.8万',
-      label: '粉丝'
-    },
-    {
-      value: '36.9万',
-      label: '获赞与收藏'
-    }
-  ],
-  panelOtherData: [
-    {
-      title: '购物',
-      label: '好逛好玩又好买'
-    },
-    {
-      title: '订单',
-      label: '查看我的订单'
-    },
-    {
-      title: '购物车',
-      label: '10个商品'
-    }
-  ],
-  beforeTabValue: '1',
-  tabValue: '1',
-  tabLeft: 0,
-  tabWidth: 0,
-  isSticky: false,
-  stickyHeight: 0,
-  transformValue: 'translate(0px, 0px)',
-  tab: [
-    {
-      label: '笔记',
-      value: '1',
-      left: 0,
-      width: 0,
-    },
-    {
-      label: '收藏',
-      value: '2',
-      left: 0,
-      width: 0,
-    },
-    {
-      label: '点赞',
-      value: '3',
-      left: 0,
-      width: 0,
-    }
-  ],
-  isChanging: false,
-  scrollPositions: {
-    1: 0,
-    2: 0,
-    3: 0
-  }, // 记录每个 Tab 的滚动位置
-  startX: 0, // 触摸开始的X坐标
-  startY: 0, // 触摸开始的Y坐标
-  distanceX: 0, // 水平滑动距离
-  distanceY: 0,  // 垂直滑动距离
-  notesList: [
-    {
-      label: '1',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '2',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '3',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '4',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '5',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-  ],
-  colletsList: [
-    {
-      label: '1',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '2',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '3',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '4',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '5',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '6',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '7',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '8',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '9',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '10',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-  ],
-  likesList: [
-    {
-      label: '1',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '2',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '3',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '4',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '5',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '6',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '7',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '8',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '9',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-    {
-      label: '10',
-      coverWidth: 0,
-      coverHeight: 0,
-      noteWidth: 0,
-      transform: '',
-      dataSetWidth: 1440,
-      dataSetHeight: 1920
-    },
-  ],
-  notesContainerElHeight: 400,
-  colletsContainerElHeight: 0,
-  likesContainerElHeight: 0,
-  transformContainerWidth: 0,
-  tabContentItemWidth: '',
-})
-
-const touchStart = (event) => {
-  const touch = event.touches[0];
-  state.startX = touch.clientX;
-  state.startY = touch.clientY;
-};
-
-const touchMove = (event) => {
-  const touch = event.touches[0];
-  state.distanceX = touch.clientX - state.startX;
-  state.distanceY = touch.clientY - state.startY;
-};
-
-const touchEnd = async () => {
-  const { distanceX, tab, tabValue } = state;
-  const threshold = 80;
-
-  if (Math.abs(distanceX) > threshold) {
-    const currentIndex = tab.findIndex(item => item.value === tabValue);
-    const targetIndex = distanceX > 0 ? currentIndex - 1 : currentIndex + 1;
-
-    if (targetIndex >= 0 && targetIndex < tab.length) {
-      const targetTab = tab[targetIndex];
-      Object.assign(state, {
-        beforeTabValue: tabValue,
-        tabValue: targetTab.value,
-        tabLeft: targetTab.left,
-        tabWidth: targetTab.width,
-        transformValue: `translate(-${targetIndex * (state.transformContainerWidth / 3)}px, 0px)`,
-      });
-      await scrollAuto();
-    }
-  }
-};
-
-const onChangeTab = async (data, index) => {
-  state.beforeTabValue = state.tabValue
-  state.tabValue = data.value
-  state.tabLeft = data.left
-  state.tabWidth = data.width
-  state.transformValue = `translate(-${index * (state.transformContainerWidth / 3)}px, 0px)`
-  await scrollAuto()
-}
-
-const scrollAuto = async () => {
-  state.isChanging = true
-  await setTimeout(() => {
-    state.isChanging = false
-  }, 300)
-  // 滚动到指定位置
-  if (state.isSticky) {
-    let targetScrollPosition = state.scrollPositions[state.tabValue];
-    await nextTick(() => {
-      setTimeout(() => {
-        uni.pageScrollTo({
-          scrollTop: targetScrollPosition,
-          duration: 400
-        });
-      }, 400)
-    })
-  }
-}
-
-const computedMaxHeight = () => {
-  return Math.max(state.notesContainerElHeight, state.colletsContainerElHeight, state.likesContainerElHeight) + 100
-}
-
-onPageScroll((e) => {
-  state.scrollPositions[state.tabValue] = e.scrollTop;
-  const query = uni.createSelectorQuery().in(instance.proxy);
-  query.select(".reds-sticky-box").boundingClientRect(data => {
-    if (data.top <= 0) {
-      state.isSticky = true
-      Object.keys(state.scrollPositions).forEach(key => {
-        if (key !== state.tabValue && state.scrollPositions[key] === 0) {
-          state.scrollPositions[key] = state.scrollPositions[key] + 420;
+<script>
+export default {
+  data() {
+    return {
+      panelData: [
+        {
+          value: 256,
+          label: '关注'
+        },
+        {
+          value: '12.8万',
+          label: '粉丝'
+        },
+        {
+          value: '36.9万',
+          label: '获赞与收藏'
         }
-      });
-    } else {
-      state.isSticky = false
+      ],
+      panelOtherData: [
+        {
+          title: '购物',
+          label: '好逛好玩又好买'
+        },
+        {
+          title: '订单',
+          label: '查看我的订单'
+        },
+        {
+          title: '购物车',
+          label: '10个商品'
+        }
+      ],
+      navBarBackground: 'red',
+      titleOpacity: 0,
+      scrollTop: 0,
+      activeTab: 0,
+      tabs: ['笔记', '收藏', '赞过'],
+      posts: Array(6).fill({}),
+      itemWidth: 0
     }
-  }).exec();
-})
-
-onMounted(async () => {
-  state.notesList = layout("notes", state.notesList)
-  state.colletsList = layout("collets", state.colletsList)
-  state.likesList = layout("likes", state.likesList)
-  state.stickyHeight = getNavBarHeight()
-
-  const query = uni.createSelectorQuery().in(instance.proxy);
-  state.tab.forEach((item, index) => {
-    query.select(`#sticky-tabs-${item.value}`).boundingClientRect(data => {
-      item.width = data.width;
-    }).exec();
-  });
-  setTimeout(() => {
-    state.tab.forEach((item, index) => {
-      item.left = index === 0 ? 0 : state.tab[index - 1].left + state.tab[index - 1].width;
-    });
-    state.tabWidth = state.tab[0].width;
-  }, 600);
-})
-
-const getShortestColumn = (colHeights) => {
-  let shortestIndex = 0
-  for (let i = 1; i < colHeights.length; i++) {
-    if (colHeights[i] < colHeights[shortestIndex]) {
-      shortestIndex = i
-    }
-  }
-  return shortestIndex
-}
-
-const layout = (sign, data) => {
-  const systemInfo = uni.getSystemInfoSync();
-  const layoutInfo = {
-    columns: 2,
-    gapV: 6,
-    gapH: 12,
-    columnWidth: Math.max(142, (systemInfo.windowWidth - (12 * 3)) / 2)
-  }
-
-  const containerWidth = Math.ceil(layoutInfo.columns * layoutInfo.columnWidth + layoutInfo.columns * layoutInfo.gapH)
-  state.transformContainerWidth = containerWidth * state.tab.length
-  state.tabContentItemWidth = (containerWidth - layoutInfo.gapH) + 'px'
-  let nextTop, nextLeft, shortestColumn, note;
-  const colHeights = new Array(layoutInfo.columns).fill(0)
-  for (let i = 0; i < data.length; i++) {
-    note = data[i]
-    const isAlignLeft = data.length % layoutInfo.columns === 0 ? false : data.length - i <= data.length % layoutInfo.columns
-    shortestColumn = isAlignLeft ? i % layoutInfo.columns : getShortestColumn(colHeights)
-    nextTop = colHeights[shortestColumn]
-    nextLeft = shortestColumn * (layoutInfo.columnWidth + layoutInfo.gapH)
-    const rawWidth = note.dataSetWidth
-    const rawHeight = note.dataSetHeight
-    data[i].coverWidth = layoutInfo.columnWidth + 'px'
-    data[i].coverHeight = Math.round(layoutInfo.columnWidth / rawWidth * rawHeight) + 'px'
-    data[i].borderRadius = layoutInfo.columns < 3 ? '12px' : '16px'
-    if (data.length >= layoutInfo.columns) {
-      data[i].transform = 'translate(' + nextLeft + 'px,' + nextTop + 'px)'
-    }
-    data[i].noteWidth = layoutInfo.columnWidth + 'px'
-    colHeights[shortestColumn] = colHeights[shortestColumn] + Math.round(layoutInfo.columnWidth / rawWidth * rawHeight) + 42 + layoutInfo.gapV
-    if (sign === 'notes') {
-      state.notesContainerElHeight = Math.max.apply(null, colHeights) + 140
-    } else if (sign === 'collets') {
-      state.colletsContainerElHeight = Math.max.apply(null, colHeights) + 140
-    } else if (sign === 'likes') {
-      state.likesContainerElHeight = Math.max.apply(null, colHeights) + 140
+  },
+  mounted() {
+    this.calculateLayout()
+  },
+  methods: {
+    calculateLayout() {
+      const { windowWidth } = uni.getSystemInfoSync()
+      this.itemWidth = (windowWidth - 32) / 2
+    },
+    handleScroll(e) {
+      const scrollTop = e.detail.scrollTop
+      this.titleOpacity = Math.min(scrollTop / 100, 1)
+      this.navBarBackground = `rgba(255,255,255,${Math.min(scrollTop / 80, 0.98)})`
+    },
+    switchTab(index) {
+      this.activeTab = index
     }
   }
-  return data
 }
-
-// 获取导航栏高度
-const getNavBarHeight = () => {
-  const systemInfo = uni.getSystemInfoSync()
-  return systemInfo.windowTop
-}
-
 </script>
 
 <style lang="scss" scoped>
+.gradient {
+  &-circle {
+    border-radius: 50%;
+    background: white;
+
+    &.large {
+      width: 160rpx;
+      height: 160rpx;
+      border: 4rpx solid #fff;
+      box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  &-gray {
+    background: linear-gradient(45deg, #D3D3D3, #A9A9A9);
+  }
+
+  &-btn {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(245, 245, 245, 0.9));
+  }
+
+  &-image {
+    background: linear-gradient(180deg, #1C2D41 0%, #546366 100%);
+    padding-top: 133%;
+    border-radius: 16rpx;
+  }
+
+  &-text {
+    background: linear-gradient(90deg, #333 30%, #666 70%);
+    opacity: 0.8;
+  }
+
+  &-accent {
+    background: linear-gradient(90deg, #1C2D41, #546366);
+  }
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .header {
-  padding: 50px 15px 25px 15px;
+  background: linear-gradient(180deg, #1C2D41 0%, #546366 100%);
+  padding: 100rpx 30rpx 80rpx 30rpx;
 
   .user-info {
     display: flex;
@@ -781,225 +336,70 @@ const getNavBarHeight = () => {
   }
 }
 
-.divider {
-  width: 100%;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.08);
-  width: calc(100vw - 24px);
-  margin: 0 12px;
-}
+/* 内容区域 */
+.content-section {
+  transform: translateY(-20px);
+  background: white;
+  border-radius: 20rpx 20rpx 0 0;
 
-.layout {
-  background: linear-gradient(180deg, #0c1520 0%, #546366 40%);
-}
+  .tab-bar {
+    display: flex;
+    padding: 0 32rpx;
 
-.bottom-menu {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #000;
-  display: block;
-  height: 48px;
-  padding-bottom: env(safe-area-inset-bottom);
-}
+    .tab-item {
+      flex: 1;
+      text-align: center;
+      padding: 24rpx 0;
+      font-size: 26rpx;
+      color: #666;
+      position: relative;
 
-.user-page {
-  overflow-y: hidden;
-  overflow-x: hidden;
-  flex: 1;
-}
+      &.active {
+        font-weight: 500;
+        color: #333;
+      }
 
-.user-page-sticky .reds-sticky {
-  padding: 16px 0 16px 2ch;
-}
+      .indicator {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 52rpx;
+        height: 6rpx;
+        border-radius: 18rpx;
+      }
+    }
+  }
 
-.reds-sticky {
-  z-index: 5 !important;
-  background: #0c1520;
-}
+  .waterfall {
+    padding: 16rpx;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 
-.reds-tabs-list {
-  display: flex;
-  flex-wrap: nowrap;
-  position: relative;
-  font-size: 16px;
-}
+    .post-item {
+      margin-bottom: 16rpx;
 
-.sub-tab-list {
-  justify-content: flex-start;
-}
+      .post-info {
+        padding: 20rpx;
 
-.reds-tab-item {
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  height: 40px;
-  cursor: pointer;
-  color: rgba(255, 255, 255, 0.8);
-  white-space: nowrap;
-  transition: transform .3s cubic-bezier(.2, 0, .25, 1);
-  z-index: 1;
-}
+        .text-line {
+          height: 32rpx;
+          margin-bottom: 12rpx;
+          border-radius: 8rpx;
 
-.reds-tab-item.active {
-  font-weight: 600;
-  color: #fff;
-}
+          &.short {
+            width: 60%;
+          }
+        }
 
-.active-tag {
-  position: absolute;
-  height: 40px;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.04);
-  border-radius: 999px;
-  pointer-events: none;
-}
-
-.feeds-tab-container {
-  padding-left: 12px;
-  background: #0c1520;
-}
-
-.transform-container {
-  display: flex;
-  will-change: transform;
-  transform: translate(0, 0);
-  transition: all 0.4s cubic-bezier(0.2, 0, 0.25, 1) 0s;
-  gap: 12px;
-}
-
-.tab-content-item {
-  padding-top: 1px;
-  flex-shrink: 0;
-}
-
-.static-layout {
-  gap: 16px;
-  justify-content: center;
-}
-
-.feeds-container.static-layout {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-}
-
-.feeds-container {
-  position: relative;
-  margin: 0 auto;
-}
-
-.empty-container {
-  margin-top: 72px;
-}
-
-.empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.empty-icon {
-  color: rgba(255, 255, 255, 0.3);
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.reds-icon {
-  display: inline-block;
-  vertical-align: middle;
-  fill: currentColor;
-}
-
-.empty-text {
-  font-size: 14px;
-  line-height: 18px;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.6);
-  margin-top: 16px;
-}
-
-.loading {
-  margin-top: 72px;
-}
-
-.feeds-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 64px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
-  visibility: hidden;
-}
-
-.sub-tab-list {
-  padding: 16px 0;
-}
-
-.reds-tabs-list.left {
-  justify-content: flex-start;
-}
-
-.note-item {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.cover {
-  position: relative;
-  display: flex;
-  border-radius: 12px;
-  overflow: hidden;
-  outline: 1px solid rgba(255, 255, 255, 0.08);
-  outline-offset: -1px;
-  transition: background .2s;
-  transform: translateZ(0);
-}
-
-.cover.ld::before {
-  background: transparent;
-  -webkit-backdrop-filter: blur(0);
-  backdrop-filter: blur(0);
-}
-
-.cover::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(42.5px);
-  z-index: 1;
-  transition: all 400ms;
-}
-
-img {
-  border-style: none;
-}
-
-.cover::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: background-color .2s;
-  background-color: transparent;
-  -webkit-transform: translate3d(0, 0, 0);
-}
-
-.reds-sticky-box.sticky .reds-sticky {
-  position: fixed;
-  z-index: 10010;
-  top: var(--stick-top);
-  width: 100%;
-  box-sizing: border-box;
+        .stats {
+          width: 40%;
+          height: 24rpx;
+          border-radius: 8rpx;
+        }
+      }
+    }
+  }
 }
 </style>
