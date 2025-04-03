@@ -47,7 +47,8 @@
             </view>
           </view>
         </view>
-        <view class="reds-sticky-box user-page-sticky" :class="[state.isSticky ? 'sticky' : '']" style="height: 72px;">
+        <view class="reds-sticky-box user-page-sticky" :class="[state.isSticky ? 'sticky' : '']" style="height: 72px;"
+          :style="{ '--stick-top': `${state.stickyHeight}px` }">
           <view class="reds-sticky" :style="{ borderRadius: state.isSticky ? '' : '20px 20px 0 0' }">
             <view class="reds-tabs-list">
               <view id="sticky-tabs" style="display: flex;">
@@ -193,6 +194,7 @@ const state = reactive({
   tabLeft: 0,
   tabWidth: 0,
   isSticky: false,
+  stickyHeight: 0,
   transformValue: 'translate(0px, 0px)',
   tab: [
     {
@@ -455,7 +457,7 @@ const state = reactive({
       dataSetHeight: 1920
     },
   ],
-  notesContainerElHeight: 0,
+  notesContainerElHeight: 400,
   colletsContainerElHeight: 0,
   likesContainerElHeight: 0,
   transformContainerWidth: 0,
@@ -549,6 +551,8 @@ onMounted(async () => {
   state.notesList = layout("notes", state.notesList)
   state.colletsList = layout("collets", state.colletsList)
   state.likesList = layout("likes", state.likesList)
+  state.stickyHeight = getNavBarHeight()
+
   const query = uni.createSelectorQuery().in(instance.proxy);
   state.tab.forEach((item, index) => {
     query.select(`#sticky-tabs-${item.value}`).boundingClientRect(data => {
@@ -612,6 +616,12 @@ const layout = (sign, data) => {
     }
   }
   return data
+}
+
+// 获取导航栏高度
+const getNavBarHeight = () => {
+  const systemInfo = uni.getSystemInfoSync()
+  return systemInfo.windowTop
 }
 
 </script>
@@ -988,7 +998,7 @@ img {
 .reds-sticky-box.sticky .reds-sticky {
   position: fixed;
   z-index: 10010;
-  top: 0;
+  top: var(--stick-top);
   width: 100%;
   box-sizing: border-box;
 }
