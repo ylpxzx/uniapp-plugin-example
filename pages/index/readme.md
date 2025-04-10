@@ -1,213 +1,152 @@
-# wo-radio 单选框选中
+# wo-timeline 时间轴组件
 
-> 采用uniapp-vue3实现, 是一款单选框组件，提供丝滑的动画选中效果，支持不同主题配置，适配web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）
+> 采用 uniapp 实现, 是一款时间轴组件，提供丝滑的动画过渡效果，支持 vue2、vue3，支持自定义内容详情面板，适配 web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）
 
-## props属性
-
-### defaultValue
-
-> 默认选中值
-
-~~~js
-defaultValue: {
-    type: any,
-    default: '',
-},
-~~~
+## props 属性
 
 ### options
 
-> 渲染数据，所提供的数据必须包含**value字段和name字段**
+> 渲染数据，所提供的数据字段必须满足如下示例
 
-~~~js
+```js
 options: {
     type: any[],
     default: () => []
 }
-//options: [{
-//    value: '1',  // value字段必须提供
-//    name: '苹果味',  // name字段必须提供
-//    tag: '饮料'  // 其他字段可选，主要用于默认插槽自定义内容
-//}]
-~~~
-
-### styleObj
-
-> 样式数据，包括主题色(primary)、未选中时圆点背景色(unselectedRadioBg)、选中时单选框背景色(selectedBg)、单选框高度(height)
-
-~~~js
-styleObj: {
-    type: {
-        primary: string;
-        unselectedColor: string;
-        selectedBg: string;
-        height: number
-    },
-    default: () => {
-        return {
-            primary: 'blue',
-            unselectedRadioBg: '#eaeaea',
-            selectedBg: 'hsla(0,0%,100%,0.5)',
-            height: 20
-        }
-    }
-}
-~~~
+// options: [{
+// 	axisPoint: "时间轴点",
+// 	title: "标题",
+// 	content: "内容",
+// 	expanded: false,  // 是否展开
+// }]
+```
 
 ## 插槽
 
-支持默认插槽，主要用于自定义右边的内容
+支持默认插槽，主要用于自定义内容块
 
-~~~html
-<wo-radio v-model:options="state.items" v-model:defaultValue="state.default" v-slot="slotProps">
-    <!-- 插槽 -->
-    <view style="display: flex;">
-        <!-- 通过slotProps.data获取单选框数据 -->
-        <view>{{ slotProps.data.name }}</view>
-        <view class="tag">{{ slotProps.data.tag }}</view>
-    </view>
-</wo-radio>
-
-// state.items数据
-items: [
-    {
-        value: '1',
-        name: '苹果味',
-        tag: '饮料'
-    },
-    {
-        value: '2',
-        name: '哈密瓜味',
-        tag: '酒水'
-    }
-]
-~~~
-
-
+```html
+<wo-timeline :options="timelineItems" @change="onChange">
+  <template v-slot:item="slotProps">
+    <!-- 使用slotProps访问子组件传递的数据 -->
+    <view class="flex-center">自定义内容</view>
+    <view><button type="primary" size="mini">操作按钮</button></view>
+    <view>{{ slotProps.item.content }}</view>
+  </template>
+</wo-timeline>
+```
 
 ## 事件
 
 ### @onChange
 
-> 点击选项时触发，返回包含了选中项、索引的对象数据
+> 点击选项时触发，返回点击的该选项内容
 
-
+```js
+返回的数据格式：
+{
+	index: 索引值,
+	data: 选项数据
+}
+```
 
 ## 使用示例
 
-~~~vue
+```vue
 <template>
-	<view>
-		<view class="light" style="background-color: white">
-			<wo-radio v-model:options="state.items" v-model:defaultValue="state.default" @on-change="changeEvent">
-			</wo-radio>
-		</view>
-		<view class="light">
-			<wo-radio v-model:options="state.items" v-model:defaultValue="state.default" v-model:styleObj="state.theme.light" v-slot="slotProps" @on-change="changeEvent">
-				<view style="display: flex;">
-					<view>{{ slotProps.data.name }}</view>
-					<view class="tag">{{ slotProps.data.tag }}</view>
-				</view>
-			</wo-radio>
-		</view>
-		<view class="dark">
-			<wo-radio v-model:options="state.items" v-model:defaultValue="state.default" v-model:styleObj="state.theme.dark" v-slot="slotProps" @on-change="changeEvent">
-				<view style="display: flex;">
-					<view>{{ slotProps.data.name }}</view>
-					<view class="tag">{{ slotProps.data.tag }}</view>
-				</view>
-			</wo-radio>
-		</view>
-	</view>
-	
+  <view class="container">
+    <view>
+      <view class="h1 flex-center">时间轴组件</view>
+      <wo-timeline :options="timelineItems" @change="onChange"></wo-timeline>
+      <wo-timeline :options="timelineItems" @change="onChange">
+        <template v-slot:item="slotProps">
+          <!-- 使用slotProps访问子组件传递的数据 -->
+          <view class="flex-center">自定义内容</view>
+          <view><button type="primary" size="mini">操作按钮</button></view>
+          <view>{{ slotProps.item.content }}</view>
+        </template>
+      </wo-timeline>
+    </view>
+    <view>
+      <view class="h1 flex-center">暗黑模式</view>
+      <view class="dark-mode">
+        <wo-timeline :options="timelineItems" @change="onChange"></wo-timeline>
+      </view>
+    </view>
+  </view>
 </template>
 
-<script setup lang="ts">
-	import { reactive } from 'vue';
-	const state = reactive({
-	  items: [{
-				value: '1',
-				name: '苹果味',
-				tag: '饮料'
-			},
-			{
-				value: '2',
-				name: '香蕉味',
-				tag: '酒水'
-			},
-			{
-				value: '3',
-				name: '火龙果味',
-				tag: '饮料'
-			},
-			{
-				value: '4',
-				name: '西瓜味',
-				tag: '饮料'
-			},
-			{
-				value: '5',
-				name: '哈密瓜味',
-				tag: '酒水'
-			},
-			{
-				value: '6',
-				name: '榴莲味',
-				tag: '酒水'
-		}],
-		default: '2',
-		theme: {
-				light: {
-					primary: 'blue',
-					unselectedRadioBg: '#eaeaea',
-					selectedBg: 'hsla(0,0%,100%,0.5)',
-					height: 20
-				},
-				dark: {
-					primary: 'blue',
-					unselectedRadioBg: 'hsl(223,90%,30%)',
-					selectedBg: 'hsla(223,90%,30%,0.5)',
-					height: 20
-				}
-		},
-		height: 12
-	});
-	const changeEvent = (el) => {
-		console.log('点击：', el);
-	}
+<script>
+export default {
+  data() {
+    return {
+      timelineItems: [
+        {
+          axisPoint: "April 1, 2025",
+          title: "中方在世贸组织追加起诉美升级对华关税措施🧋",
+          content:
+            "美国东部时间4月8日，美方将此前宣布的对中国输美产品加征34%所谓“对等关税”，进一步提高50%至84%",
+          expanded: false,
+        },
+        {
+          axisPoint: "April 1, 2025",
+          title: "海关总署：暂停6家美国企业产品输华资质",
+          content:
+            "为保护中国消费者健康，由于相关进口产品存在检验检疫问题，决定暂停1家美国涉事企业高粱输华资质，3家美国涉事企业禽肉骨粉输华资质",
+          expanded: false,
+        },
+        {
+          axisPoint: "April 2, 2025",
+          title: "中方对原产于美国的所有进口商品加征34%关税",
+          content:
+            "2025年4月2日，美国政府宣布对中国输美商品征收“对等关税”。美方做法不符合国际贸易规则，严重损害中方的正当合法权益，是典型的单边霸凌做法",
+          expanded: true,
+        },
+        {
+          axisPoint: "April 3, 2025",
+          title: "👋商务部对进口医用CT球管发起产业竞争力立案调查",
+          content:
+            "依据《中华人民共和国对外贸易法》第三十六条规定，商务部可以自行或者会同国务院其他有关部门对货物进出口、技术进出口、国际服务贸易对国内产业及其竞争力的影响发起调查",
+          expanded: false,
+        },
+        {
+          axisPoint: "April 4, 2025",
+          title: "我国对7类中重稀土相关物项实施出口管制🍈",
+          content:
+            "4月4日，商务部新闻发言人就对中重稀土相关物项实施出口管制应询答记者问",
+          expanded: false,
+        },
+      ],
+      targetIndex: "",
+      isExpanding: false,
+      isCollapsing: false,
+    };
+  },
+  methods: {
+    onChange(e) {
+      console.log("onChange", e);
+    },
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-	.light {
-		border-radius: 10px;
-		padding: 20rpx;
-		font-size: 24rpx;
-		background-color: hsl(223,90%,90%);
-		margin: 20px;
-		height: 300px;
-		overflow: auto;
-	}
-	.dark {
-		border-radius: 10px;
-		padding: 20rpx;
-		font-size: 24rpx;
-		background-color: hsl(223,90%,10%);
-		color: white;
-		margin: 20px;
-		height: 300px;
-		overflow: auto;
-	}
-	.tag {
-		background-color: #1BA035;
-		color: white;
-		font-size: 10px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 4px;
-		padding: 0 4px;
-		margin-left: 5px;
-	}
-</style>
-~~~
+<style scoped>
+.h1 {
+  font-size: 1em;
+  text-align: center;
+  padding: 1em 0;
+}
 
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dark-mode {
+  padding-top: 2em;
+  background-color: #000;
+  color: #fff;
+}
+</style>
+```

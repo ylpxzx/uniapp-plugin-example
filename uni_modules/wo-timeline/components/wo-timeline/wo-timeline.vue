@@ -21,7 +21,9 @@
         <view class="timeline__item-body"
           :class="[item.expanded ? 'timeline__item-body--expanded' : '', isExpanding && targetIndex === index ? 'item-show-anim' : '', isCollapsing && targetIndex === index ? 'item-hide-anim' : '']">
           <view class="timeline__item-body-content">
-            <text class="timeline__item-p">{{ item.content }}</text>
+            <slot name="item" :item="item">
+              <text class="timeline__item-p">{{ item.content }}</text>
+            </slot>
           </view>
         </view>
       </view>
@@ -67,12 +69,16 @@ export default {
         this.isExpanding = false;
         this.isCollapsing = false;
       }, 800);
-      this.returnHasExpand();
+      const clickedItem = {
+        index: index,
+        data: this.timelineItems[index],
+      }
+      this.$emit("change", clickedItem);
     },
-    returnHasExpand() {
-      const hasExpand = this.timelineItems.some((item) => item.expanded);
-      this.$emit("change", hasExpand);
-    },
+    // returnHasExpand() {
+    //   const hasExpand = this.timelineItems.some((item) => item.expanded);
+    //   this.$emit("change", hasExpand);
+    // },
   },
 }
 </script>
