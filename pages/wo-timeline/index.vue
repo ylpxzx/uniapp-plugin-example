@@ -4,10 +4,9 @@
 			<view class="h1 flex-center">时间轴组件</view>
 			<wo-timeline :options="timelineItems" @change="onChange"></wo-timeline>
 			<wo-timeline :options="timelineItems" @change="onChange">
-				<template v-slot:item="slotProps">
-					<!-- 使用slotProps访问子组件传递的数据 -->
+				<template #item="{ content }">
 					<view><button type="primary" size="mini">操作按钮</button></view>
-					<view>{{ slotProps.item.content }}</view>
+					<view>{{ content }}</view>
 				</template>
 			</wo-timeline>
 		</view>
