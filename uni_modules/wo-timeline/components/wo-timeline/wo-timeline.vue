@@ -21,7 +21,7 @@
         <view class="timeline__item-body"
           :class="[item.expanded ? 'timeline__item-body--expanded' : '', isExpanding && targetIndex === index ? 'item-show-anim' : '', isCollapsing && targetIndex === index ? 'item-hide-anim' : '']">
           <view class="timeline__item-body-content">
-            <slot name="item" v-bind="item">
+            <slot name="item" :item="item">
               <text class="timeline__item-p">{{ item.content }}</text>
             </slot>
           </view>

@@ -1,19 +1,20 @@
 {
-  "id": "wo-timeline",
-  "displayName": "时间轴 timeline",
-  "version": "1.2.0",
-  "description": "采用 uniapp 实现, 是一款时间轴组件，提供丝滑的动画过渡效果，支持 vue2、vue3，支持自定义内容详情面板，适配 web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）",
+  "id": "ticket-one",
+  "displayName": "票据模板",
+  "version": "1.0.0",
+  "description": "简约美观的票据模板，纯CSS、HTML实现，用户完全可根据自身需求进行更改、扩展；支持web、H5、微信小程序（其他小程序请自行测试），",
   "keywords": [
-    "时间轴",
-    "时间线",
-    "timeline"
+    "票",
+    "票据",
+    "飞机票",
+    "车票"
 ],
   "repository": "",
   "engines": {
     "HBuilderX": "^3.1.0"
   },
   "dcloudext": {
-    "type": "component-vue",
+    "type": "uniapp-template-page",
     "sale": {
       "regular": {
         "price": "0.00"
@@ -53,16 +54,16 @@
             "app-harmony": "u"
         },
         "H5-mobile": {
-          "Safari": "u",
-          "Android Browser": "u",
-          "微信浏览器(Android)": "u",
-          "QQ浏览器(Android)": "u"
+          "Safari": "y",
+          "Android Browser": "y",
+          "微信浏览器(Android)": "y",
+          "QQ浏览器(Android)": "y"
         },
         "H5-pc": {
           "Chrome": "y",
           "IE": "u",
-          "Edge": "u",
-          "Firefox": "u",
+          "Edge": "y",
+          "Firefox": "y",
           "Safari": "u"
         },
         "小程序": {
