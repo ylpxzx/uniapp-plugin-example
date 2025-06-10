@@ -1,10 +1,13 @@
 {
   "id": "wo-toolbar",
-  "displayName": "wo-toolbar",
+  "displayName": "标签栏 wo-toolbar",
   "version": "1.0.0",
-  "description": "wo-toolbar",
+  "description": "一款具备丝滑动画的标签工具栏模板；适配 web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）；代码实现简约易懂，用户可根据自身需求下载模板，并进行扩展开发",
   "keywords": [
-    "wo-toolbar"
+    "标签栏",
+    "工具栏",
+    "toolbar",
+    "导航栏"
 ],
   "repository": "",
   "engines": {
@@ -24,9 +27,9 @@
       "qq": ""
     },
     "declaration": {
-      "ads": "",
-      "data": "",
-      "permissions": ""
+      "ads": "无",
+      "data": "插件不采集任何数据",
+      "permissions": "无"
     },
     "npmurl": ""
   },
@@ -35,19 +38,20 @@
     "encrypt": [],
     "platforms": {
       "cloud": {
-        "tcb": "u",
-        "aliyun": "u",
-        "alipay": "u"
+        "tcb": "y",
+        "aliyun": "y",
+        "alipay": "y"
       },
       "client": {
         "Vue": {
-          "vue2": "u",
-          "vue3": "u"
+          "vue2": "y",
+          "vue3": "y"
         },
         "App": {
-          "app-vue": "u",
-          "app-nvue": "u",
-          "app-uvue": "u"
+            "app-vue": "u",
+            "app-nvue": "u",
+            "app-uvue": "u",
+            "app-harmony": "u"
         },
         "H5-mobile": {
           "Safari": "u",
@@ -56,14 +60,14 @@
           "QQ浏览器(Android)": "u"
         },
         "H5-pc": {
-          "Chrome": "u",
+          "Chrome": "y",
           "IE": "u",
-          "Edge": "u",
-          "Firefox": "u",
-          "Safari": "u"
+          "Edge": "y",
+          "Firefox": "y",
+          "Safari": "y"
         },
         "小程序": {
-          "微信": "u",
+          "微信": "y",
           "阿里": "u",
           "百度": "u",
           "字节跳动": "u",
