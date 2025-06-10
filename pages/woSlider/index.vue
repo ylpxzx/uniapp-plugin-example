@@ -18,7 +18,7 @@
 					外边框有间隙滑块
 				</view>
 				<view style="border: 1rpx solid #DEE1E6; padding: 16rpx; border-radius: 80rpx;width: 400rpx;">
-					<wo-slider @slideFinish="onFinish" :round="{show: true, style: '80rpx'}">
+					<wo-slider @slideFinish="onFinish" :is-show-end-slider="false" :round="{show: true, style: '80rpx'}">
 						<template v-slot:begin>
 							<view style="background-color: #E5673B; height: 100%; display: flex; justify-content: center; align-items: center">
 								<img style="height: 50rpx;width: 50rpx;" src="/static/right.png" alt="logo"></img>

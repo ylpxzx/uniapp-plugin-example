@@ -2,6 +2,12 @@
   "pages": [
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
+      "path": "pages/woSlider/index",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+		{
       "path": "uni_modules/wo-toolbar/pages/index",
       "style": {
         "navigationBarTitleText": ""
@@ -48,12 +54,6 @@
       "style": {
         "navigationBarTitleText": "个人中心",
         "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/index/index",
-      "style": {
-        "navigationBarTitleText": "uni-app"
       }
     }
   ],

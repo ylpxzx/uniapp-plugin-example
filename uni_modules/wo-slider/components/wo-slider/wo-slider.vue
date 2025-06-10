@@ -1,50 +1,50 @@
 <template>
 	<view>
-			<view class="skidway" id="skidway"
-			 :style="{ 
+		<view class="skidway" id="skidway"
+		 :style="{ 
+			 borderRadius: round.show ? round.style : '',
+			 height: height + 'rpx',
+			 border: border.show ? border.style : ''}">
+			<view :style="{ width:moveWidth + sliderWidth + 'px', borderRadius: round.show ? round.style : '' }" class="end-status skidway-style">
+				<slot name="isFinished">
+					<view style="height: 100%;background-color: #65B58A; color: #fff; display: flex; justify-content: center;align-items: center;">
+							滑动成功
+					</view>
+				</slot>
+			</view>
+			<view class="skidway-style" :style="{borderRadius: round.show ? round.style : ''}">
+				<slot name="init">
+					<view style="background-color: #DEE1E6; color: #000; height: 100%; display: flex; justify-content: center;align-items: center;">右滑解锁</view>
+				</slot>
+			</view>
+			<view
+			 :style="{
+				 left:moveWidth +'px',
 				 borderRadius: round.show ? round.style : '',
-				 height: height + 'rpx',
-				 border: border.show ? border.style : ''}">
-				<view :style="{ width:moveWidth + sliderWidth + 'px', borderRadius: round.show ? round.style : '' }" class="end-status skidway-style">
-					<slot name="isFinished">
-						<view style="height: 100%;background-color: #65B58A; color: #fff; display: flex; justify-content: center;align-items: center;">
-								滑动成功
+				 width: sliderSize + 'rpx',
+				 height: sliderSize + 'rpx'}"
+			 @touchstart="slideStart"
+			 @touchmove="slideMove"
+			 @touchend="slideEnd"
+			 id="slider"
+			 class="slider">
+				<view v-if="!finishFlag" style="height: 100%; width: 100%;">
+					<slot name="begin">
+						<view style="background-color: #E5673B; height: 100%; display: flex; justify-content: center; align-items: center; color: #fff;">
+							开始
 						</view>
 					</slot>
 				</view>
-				<view class="skidway-style" :style="{borderRadius: round.show ? round.style : ''}">
-					<slot name="init">
-						<view style="background-color: #DEE1E6; color: #000; height: 100%; display: flex; justify-content: center;align-items: center;">右滑解锁</view>
+				<view v-else style="height: 100%; width: 100%;" v-show="isShowEnd">
+					<slot name="end">
+						<view style="background-color: #1BA035; height: 100%; display: flex; justify-content: center; align-items: center; color: #fff;">
+							结束
+						</view>
 					</slot>
-				</view>
-				<view
-				 :style="{
-					 left:moveWidth +'px',
-					 borderRadius: round.show ? round.style : '',
-					 width: sliderSize + 'rpx',
-					 height: sliderSize + 'rpx'}"
-				 @touchstart="slideStart"
-				 @touchmove="slideMove"
-				 @touchend="slideEnd"
-				 id="slider"
-				 class="slider">
-					<view v-if="!finishFlag" style="height: 100%; width: 100%;">
-						<slot name="begin">
-							<view style="background-color: #E5673B; height: 100%; display: flex; justify-content: center; align-items: center; color: #fff;">
-								开始
-							</view>
-						</slot>
-					</view>
-					<view v-else style="height: 100%; width: 100%;">
-						<slot name="end">
-							<view style="background-color: #1BA035; height: 100%; display: flex; justify-content: center; align-items: center; color: #fff;">
-								结束
-							</view>
-						</slot>
-					</view>
 				</view>
 			</view>
 		</view>
+	</view>
 </template>
 
 <script>
@@ -69,7 +69,11 @@
 				default: function () {
 					return { show: false, style: '1rpx solid #C8C9CC' }
 				}
-			}
+			},
+			isShowEndSlider: {
+				type: Boolean,
+				default: true,
+			},
 		},
 		data() {
 			return {
@@ -78,7 +82,8 @@
 				skidwayWidth: 0,  // 滑道长度
 				sliderWidth: 0, // 滑块长度
 				finishFlag: false, // 滑动是否完成
-				isMove:true // 是否可滑动
+				isMove:true, // 是否可滑动
+				isShowEnd: this.isShowEndSlider  // 是否显示结束滑块
 			}
 		},
 		mounted() {
