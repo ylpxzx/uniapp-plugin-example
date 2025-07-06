@@ -1,12 +1,12 @@
 {
   "pages": [
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-    {
-      "path": "uni_modules/wo-toolbar/pages/index",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
+		{
+		  "path": "uni_modules/wo-timeline-template-1/pages/index",
+		  "style": {
+		    "navigationBarTitleText": ""
+		  }
+		},
     {
       "path": "uni_modules/single-digit-input/pages/index",
       "style": {
