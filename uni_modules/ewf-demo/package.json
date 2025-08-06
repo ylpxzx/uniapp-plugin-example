@@ -48,9 +48,10 @@
           "vue3": "y"
         },
         "App": {
-          "app-vue": "u",
-          "app-nvue": "u",
-          "app-uvue": "u"
+            "app-vue": "u",
+            "app-nvue": "u",
+            "app-uvue": "u",
+            "app-harmony": "u"
         },
         "H5-mobile": {
           "Safari": "u",
