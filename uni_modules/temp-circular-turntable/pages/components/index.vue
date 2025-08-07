@@ -1,5 +1,5 @@
 <template>
-  <view class="team">
+  <view class="team" @click="stopRotation">
     <view
       v-for="(item, index) in dataList"
       :key="index"
@@ -12,65 +12,15 @@
 
 <script>
 export default {
+  props: {
+    options: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
-      dataList: [
-        {
-          title: "0",
-          image: "https://randomuser.me/api/portraits/lego/3.jpg",
-          value: "0",
-        },
-        {
-          title: "1",
-          image: "https://randomuser.me/api/portraits/lego/1.jpg",
-          value: "1",
-        },
-        {
-          title: "2",
-          image: "https://randomuser.me/api/portraits/lego/2.jpg",
-          value: "2",
-        },
-        {
-          title: "3",
-          image: "https://randomuser.me/api/portraits/lego/4.jpg",
-          value: "3",
-        },
-        {
-          title: "4",
-          image: "https://randomuser.me/api/portraits/lego/5.jpg",
-          value: "4",
-        },
-        {
-          title: "5",
-          image: "https://randomuser.me/api/portraits/lego/6.jpg",
-          value: "5",
-        },
-        {
-          title: "6",
-          image: "https://randomuser.me/api/portraits/lego/7.jpg",
-          value: "6",
-        },
-        {
-          title: "7",
-          image: "https://randomuser.me/api/portraits/lego/8.jpg",
-          value: "7",
-        },
-        {
-          title: "8",
-          image: "https://randomuser.me/api/portraits/lego/9.jpg",
-          value: "8",
-        },
-        {
-          title: "9",
-          image: "https://randomuser.me/api/portraits/lego/4.jpg",
-          value: "9",
-        },
-        {
-          title: "10",
-          image: "https://randomuser.me/api/portraits/lego/4.jpg",
-          value: "10",
-        },
-      ],
+      dataList: this.options,
       radius: 200, // 圆环半径，单位rpx
       center: 250, // 圆心坐标，单位rpx
       imageSize: 60, // 图片大小，单位rpx
@@ -92,17 +42,26 @@ export default {
       const x = this.center + this.radius * Math.cos(rad) - this.imageSize / 2;
       const y = this.center + this.radius * Math.sin(rad) - this.imageSize / 2;
       return `
-				position: absolute;
-				left: ${x}rpx;
-				top: ${y}rpx;
-				width: ${this.imageSize}rpx;
-				height: ${this.imageSize}rpx;
-			`;
+        position: absolute;
+        left: ${x}rpx;
+        top: ${y}rpx;
+        width: ${this.imageSize}rpx;
+        height: ${this.imageSize}rpx;
+      `;
     },
     startRotation() {
+      if (this.timer) return;
       this.timer = setInterval(() => {
         this.rotation = (this.rotation + 1) % 360;
-      }, 16); // 50ms转1度，约18秒一圈
+      }, 16);
+    },
+    stopRotation() {
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = null;
+      } else {
+        this.startRotation();
+      }
     },
   },
 };
