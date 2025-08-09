@@ -1,16 +1,19 @@
 {
-	"id": "temp-circular-turntable",
-	"displayName": "temp-circular-turntable",
+	"id": "circular-turntable",
+	"displayName": "圆形滚盘",
 	"version": "1.0.0",
-	"description": "temp-circular-turntable",
+	"description": "采用 uniapp 实现的一款圆形滚盘示例组件模板, 支持 vue2、vue3，适配H5、微信小程序（其他小程序未试过，可自行尝试）",
 	"keywords": [
-        "temp-circular-turntable"
+        "圆形旋转盘",
+        "圆形滚盘",
+        "旋转",
+        "轮盘"
     ],
 	"repository": "",
 	"engines": {
 		"HBuilderX": "^3.1.0",
-		"uni-app": "^3.1.0",
-		"uni-app-x": "^3.1.0"
+		"uni-app": "^4.07",
+		"uni-app-x": ""
 	},
 	"dcloudext": {
 		"type": "uniapp-template-page",
@@ -26,33 +29,33 @@
 			"qq": ""
 		},
 		"declaration": {
-			"ads": "",
-			"data": "",
-			"permissions": ""
+			"ads": "无",
+      "data": "插件不采集任何数据",
+      "permissions": "无"
 		},
 		"npmurl": "",
-		"darkmode": "-",
-		"i18n": "-",
-		"widescreen": "-"
+		"darkmode": "√",
+		"i18n": "√",
+		"widescreen": "√"
 	},
 	"uni_modules": {
 		"dependencies": [],
 		"encrypt": [],
 		"platforms": {
 			"cloud": {
-				"tcb": "-",
-				"aliyun": "-",
-				"alipay": "-"
+				"tcb": "√",
+				"aliyun": "√",
+				"alipay": "√"
 			},
 			"client": {
 				"uni-app": {
 					"vue": {
-						"vue2": "-",
-						"vue3": "-"
+						"vue2": "√",
+						"vue3": "√"
 					},
 					"web": {
-						"safari": "-",
-						"chrome": "-"
+						"safari": "√",
+						"chrome": "√"
 					},
 					"app": {
 						"vue": "-",
@@ -62,7 +65,7 @@
 						"harmony": "-"
 					},
 					"mp": {
-						"weixin": "-",
+						"weixin": "√",
 						"alipay": "-",
 						"toutiao": "-",
 						"baidu": "-",

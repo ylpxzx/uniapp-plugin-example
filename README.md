@@ -30,6 +30,10 @@ uniapp插件模板，以及一些插件示例
 ### wo-identity-card 银行卡卡片
 > 采用uniapp-vue3实现的银行卡卡片，支持H5、微信小程序(其他小程序请自行测试)
 
+### circular-turntable
+> 采用uniapp实现的一款纯css图片、头像圆形旋转转盘模板，支持 vue2、vue3；适配 web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）
+
+
 
 ## 通用组件
 

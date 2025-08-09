@@ -15,16 +15,41 @@ export default {
   props: {
     options: {
       type: Array,
-      default: () => [],
+      default: () => [
+        { image: "https://randomuser.me/api/portraits/lego/3.jpg" },
+        { image: "https://randomuser.me/api/portraits/lego/1.jpg" },
+        { image: "https://randomuser.me/api/portraits/lego/2.jpg" },
+        { image: "https://randomuser.me/api/portraits/lego/4.jpg" },
+        { image: "https://randomuser.me/api/portraits/lego/5.jpg" },
+        { image: "https://randomuser.me/api/portraits/lego/6.jpg" },
+        { image: "https://randomuser.me/api/portraits/lego/7.jpg" },
+      ],
+    },
+    circleRadius: {
+      type: Number,
+      default: 150, // 圆环半径，单位rpx
+    },
+    circleCenter: {
+      type: Number,
+      default: 200, // 圆心坐标，单位rpx
+    },
+    imageSize: {
+      type: Number,
+      default: 60, // 图片大小，单位rpx
+    },
+    speed: {
+      type: Number,
+      default: 1, // 旋转速度，单位ms
     },
   },
   data() {
     return {
       dataList: this.options,
-      radius: 200, // 圆环半径，单位rpx
-      center: 250, // 圆心坐标，单位rpx
-      imageSize: 60, // 图片大小，单位rpx
+      radius: this.circleRadius,
+      center: this.circleCenter,
+      imageSize: this.imageSize,
       rotation: 0, // 当前旋转角度
+      speed: this.speed,
       timer: null,
     };
   },
@@ -52,7 +77,7 @@ export default {
     startRotation() {
       if (this.timer) return;
       this.timer = setInterval(() => {
-        this.rotation = (this.rotation + 1) % 360;
+        this.rotation = (this.rotation + this.speed) % 360;
       }, 16);
     },
     stopRotation() {
@@ -69,8 +94,6 @@ export default {
 
 <style scoped>
 .team {
-  width: 500rpx;
-  height: 500rpx;
   position: relative;
   border-radius: 50%;
   margin: 0 auto;
