@@ -1,12 +1,12 @@
 {
   "pages": [
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-		  "path": "uni_modules/template-express/pages/index",
-		  "style": {
-		    "navigationBarTitleText": "模板"
-		  }
-		},
+    {
+      "path": "uni_modules/template-express/pages/index",
+      "style": {
+        "navigationBarTitleText": "选项卡"
+      }
+    },
     // {
     //   "path": "uni_modules/temp-circular-turntable/pages/index",
     //   "style": {
