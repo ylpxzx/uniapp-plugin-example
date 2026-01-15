@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div>测试内容</div>
+      <div style="display: flex; flex-direction: column; gap: 12px">
+        <button @click="showToast('tip')">提示按钮</button>
+        <button @click="showToast('success')">成功按钮</button>
+        <button @click="showToast('warning')">警告按钮</button>
+        <button @click="showToast('error')">错误按钮</button>
+        <div>{{ toasts }}</div>
+      </div>
+      <div class="toast-panel">
+        <div
+          v-for="(toast, idx) in toasts"
+          :key="toast.id"
+          :class="['toast-item', toast.class]"
+          :style="{ maxHeight: toast.visible ? '200px' : '0', opacity: toast.visible ? '1' : '0', transition: toast.visible ? 'all 0.5s ease' : 'all 0.5s ease 0s' }"
+        >
+          <div :class="['toast', toast.class]">
+            <label class="close" @click="closeToast(toast.id)"></label>
+            <h3 v-text="toast.title"></h3>
+            <p v-html="toast.content"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script>
+      // toast类型与内容映射
+      const toastTypes = {
+        tip: {
+          class: "help",
+          title: "Help!",
+          content:
+            'Do you have a problem? Just use this <a href="#">contact form</a>.',
+        },
+        success: {
+          class: "success",
+          title: "Success!",
+          content: "Your message has been sent successfully.",
+        },
+        warning: {
+          class: "warning",
+          title: "Warning!",
+          content: "Sorry, there was a problem with your request.",
+        },
+        error: {
+          class: "error",
+          title: "Error!",
+          content: "Change a few thing up and try submitting again.",
+        },
+      };
+      const { createApp, ref, reactive, toRefs } = window.Vue;
+      createApp({
+        setup() {
+          let toastId = 0;
+          const state = reactive({
+            toasts: [],
+          });
+          function showToast(type) {
+            const info = toastTypes[type];
+            if (!info) return;
+            const id = ++toastId;
+            // 用 reactive 保证 visible 响应式
+            const toast = reactive({
+              id,
+              ...info,
+              visible: false,
+            });
+            state.toasts.push(toast);
+            setTimeout(() => {
+              toast.visible = true;
+            }, 10);
+            // 自动关闭
+            const index = state.toasts.length - 1;
+            const delay = 5000 + index * 800;
+            setTimeout(() => closeToast(id), delay);
+          }
+          function closeToast(id) {
+            const idx = state.toasts.findIndex((t) => t.id === id);
+            if (idx !== -1) {
+              state.toasts[idx].visible = false;
+              setTimeout(() => {
+                const removeIdx = state.toasts.findIndex((t) => t.id === id);
+                if (removeIdx !== -1) state.toasts.splice(removeIdx, 1);
+              }, 500);
+            }
+          }
+          return { toasts: state.toasts, showToast, closeToast };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
