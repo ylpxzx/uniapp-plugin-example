@@ -1,14 +1,13 @@
 {
-	"id": "wo-time-len",
-	"displayName": "时间日期选择器",
-	"version": "1.0.2",
-	"description": "采用 uniapp 实现的一款时间范围选择器，不依赖任何第三方库，纯JS、CSS、HTML实现。支持 vue2、vue3；适配 web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）",
+	"id": "wo-toast-notice-1",
+	"displayName": "吐司通知弹窗",
+	"version": "1.0.1",
+	"description": "采用 uniapp+vue3 实现的一款简单吐司通知弹窗，适配 web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）",
 	"keywords": [
-        "时间范围选择器",
-        "时间",
-        "日期",
-        "范围选择器",
-        "选择器"
+        "通知",
+        "吐司",
+        "弹窗",
+        "提示"
     ],
 	"repository": "",
 	"engines": {
@@ -51,8 +50,8 @@
 			"client": {
 				"uni-app": {
 					"vue": {
-						"vue2": "√",
-          	"vue3": "√"
+						"vue2": "x",
+						"vue3": "√"
 					},
 					"web": {
 						"safari": "√",
