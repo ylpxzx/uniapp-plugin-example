@@ -1,7 +1,7 @@
 {
 	"id": "wo-time-len",
 	"displayName": "时间日期选择器",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "采用 uniapp 实现的一款时间范围选择器，不依赖任何第三方库，纯JS、CSS、HTML实现。支持 vue2、vue3；适配 web、H5、微信小程序（其他平台小程序未测试过，可自行尝试）",
 	"keywords": [
         "时间范围选择器",
@@ -20,7 +20,7 @@
 		"type": "component-vue",
 		"sale": {
 			"regular": {
-				"price": "1.00"
+				"price": "0.00"
 			},
 			"sourcecode": {
 				"price": "0.00"
