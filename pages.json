@@ -1,9 +1,9 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/wo-time-len/index",
+			"path": "pages/wo-toast-notice-1/index",
 			"style": {
-				"navigationBarTitleText": "时间范围选择器"
+				"navigationBarTitleText": "吐司通知"
 			}
 		}
 	],
