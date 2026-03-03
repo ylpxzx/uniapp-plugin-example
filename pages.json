@@ -2,6 +2,12 @@
   "pages": [
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
+      "path": "uni_modules/card-1/pages/index",
+      "style": {
+        "navigationBarTitleText": "虚拟卡"
+      }
+    },
+    {
       "path": "uni_modules/template-express/pages/index",
       "style": {
         "navigationBarTitleText": "选项卡"
@@ -54,20 +60,20 @@
       "style": {
         "navigationBarTitleText": ""
       }
-    },
-    {
-      "path": "uni_modules/wo-personal-page-1/pages/index/index",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/me/index",
-      "style": {
-        "navigationBarTitleText": "个人中心",
-        "navigationStyle": "custom"
-      }
     }
+    // {
+    //   "path": "uni_modules/wo-personal-page-1/pages/index/index",
+    //   "style": {
+    //     "navigationBarTitleText": ""
+    //   }
+    // },
+    // {
+    //   "path": "pages/me/index",
+    //   "style": {
+    //     "navigationBarTitleText": "个人中心",
+    //     "navigationStyle": "custom"
+    //   }
+    // }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
