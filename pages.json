@@ -1,6 +1,12 @@
 {
   "pages": [
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+		  "path": "uni_modules/picture-gallery-1/pages/index",
+		  "style": {
+		    "navigationBarTitleText": "图廊"
+		  }
+		},
     {
       "path": "uni_modules/card-1/pages/index",
       "style": {
