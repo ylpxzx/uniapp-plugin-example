@@ -1,5 +1,30 @@
 <template>
   <view class="container">
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
+    <view>占位</view>
     <view style="border-top: 1rpx solid #eee">
       <view>
         <view class="h1 flex-center">通知弹窗</view>
@@ -21,7 +46,7 @@
         <button type="primary" @click="confirmFour('error')">错误通知</button>
       </view>
     </view>
-    <wo-toast-notice-1 ref="noticeRef" />
+    <wo-toast-notice-2 ref="noticeRef" />
   </view>
 </template>
 
@@ -50,8 +75,7 @@ const confirmThree = (type) => {
   noticeRef.value.showToast({
     type: type,
     title: "警告通知",
-    content:
-      "这是一条警告通知的内容，消息内容可能很长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长。",
+    content: "这是一条警告通知的内容。",
   });
 };
 
